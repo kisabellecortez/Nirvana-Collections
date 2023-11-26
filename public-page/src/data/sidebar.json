@@ -1,0 +1,60 @@
+[
+    {   
+        "title": "HOME", 
+        "path": "/"
+
+    },
+    {
+        "title": "SHOP", 
+        "path": "/",
+        "childrens": [
+            {
+                "title": "EARRINGS", 
+                "path": "/"
+            }, 
+            {
+                "title": "NECKLACES", 
+                "path": "/"
+            },
+            {
+                "title": "BRACELETS", 
+                "path": "/"
+            },
+            {
+                "title": "RINGS", 
+                "path": "/"
+            },
+            {
+                "title": "ANKLETS", 
+                "path": "/"
+            },
+            {
+                "title": "PHONE CHARMS", 
+                "path": "/"
+            },
+            {
+                "title": "CRYSTALS", 
+                "path": "/"
+            },
+            {
+                "title": "CUSTOM ORDERS", 
+                "path": "/"
+            }
+        ]
+    },
+    {
+        "title": "FAQ", 
+        "path": "/"
+
+    },
+    {
+        "title": "BLOG", 
+        "path": "/"
+
+    },
+    {
+        "title": "CONTACT US", 
+        "path": "/"
+
+    },
+]
