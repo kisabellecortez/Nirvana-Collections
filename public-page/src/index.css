@@ -1,15 +1,51 @@
+*{
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+
+}
+
+html, body{
+  height: 100vh; 
+
+}
+
+body{
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 16px; 
+  color: white;
+
+}
+
+.main{
+  display: flex; 
+  height: 100vh; 
+
+}
+
+.sidebar{
+  margin-top: 50px; 
+  width: 260px; 
+  flex-shrink: 0; 
+  background-color: #e5c0fc; 
+  height: 100%; 
+  overflow: auto; 
+
+}
+
 .sidebar-item{
   padding: 1em; 
   font-size: 1.1em;
-  display: inline-block; 
-  padding-left: 50px; 
+  display: block; 
+  cursor: pointer; 
+  text-decoration: none; 
 
 }
 
 .sidebar-title{
   display: flex; 
   justify-content: space-between;
-  font-size: 30px; 
+  font-size: 25px; 
   vertical-align: middle; 
   color: #7030a0;
   font-family: Impact, fantasy; 
@@ -19,30 +55,25 @@
 
 .sidebar-title .toggle-btn{
   width: 20px; 
-  cursor: pointer; 
-  margin-left: 20px; 
-  vertical-align: middle; 
+  cursor: pointer;
   transition: transform .3s; 
 
 }
 
-.sidebar-item.open .sidebar-title .toggle-btn{
+.sidebar-item.open > .sidebar-title .toggle-btn{
   transform: rotate(-180deg)
 
 }
 
-.sidebar-content{
-  padding-top: 10px; 
+.sidebar-content{ 
+  overflow: hidden; 
   font-family: Impact, fantasy;
   color: #7030a0;
-  font-size: 22px; 
-  letter-spacing: 1px; 
   height: 0; 
-  overflow: hidden; 
 
 }
 
-.sidebar-item.open .sidebar-content{
+.sidebar-item.open > .sidebar-content{
   height: auto; 
   
 }

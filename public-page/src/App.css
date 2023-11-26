@@ -1,34 +1,33 @@
-*{
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
-
-}
-
-html, body{
-  height: 100vh; 
-
-}
-
-body{
-  font-family: Arial, Helvetica, sans-serif; 
-  font-size: 16px; 
-  color: white;
-
-}
-
-.main{
-  display: flex; 
-  height: 100vh; 
-
-}
-
-.sidebar{
-  width: 260px; 
-  flex-shrink: 0; 
+.nav{
+  position: fixed; 
+  top: 0; 
+  width: 100%; 
+  height: 50px; 
   background-color: #e5c0fc; 
-  height: 100%; 
-  overflow: auto; 
-  padding-top: 50px; 
+  margin-bottom: 20px; 
+  display: block; 
+
+}
+
+.nav .logo{
+  width: 50px; 
+  height: 50px; 
+  margin-left: 40%; 
+  margin-top: 2px; 
+
+}
+
+.nav .name{
+  margin-bottom: 8px; 
+  width: 20%; 
+  height: 70%; 
+  
+}
+
+.nav .menu-btn{
+  position: absolute; 
+  width: 40px; 
+  height: 40px;
+  margin: 5px; 
 
 }
