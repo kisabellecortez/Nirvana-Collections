@@ -1,20 +1,25 @@
+.main{
+  position: absolute; 
+
+}
+
 .nav{
   position: fixed; 
   top: 0; 
   width: 100%; 
-  height: 50px; 
+  height: 3em; 
   background-color: #e5c0fc; 
   display: block; 
-  z-index: -1; 
+  z-index: 1; 
 
 }
 
 .nav .logo{
   vertical-align: middle;
-  width: 3em; 
-  height: 3em; 
-  margin-left: 40%; 
-  margin-top: 0.2em; 
+  width: 3.2em; 
+  height: 2.7em; 
+  margin-left: 42%; 
+  margin-top: 0.25em; 
 
 }
 
@@ -22,7 +27,62 @@
   vertical-align: middle;
   margin-top: 0.15em; 
   width: 15em; 
-  height: 3em; 
+  height: 2.5em; 
   
+}
+
+.end-banner{ 
+  z-index: 1; 
+  position: absolute; 
+  display: flex;  
+  bottom: 0; 
+  width: 100%;
+  height: 20em; 
+  background-color: #e5c0fc;
+
+}
+
+.end-banner .support{
+  margin-left: 5%; 
+  margin-top: 2em; 
+  width: 40em;
+
+}
+
+.end-banner h1{
+  color: #7030a0;
+  font-size: 1.2em; 
+  margin-bottom: 1em; 
+
+}
+
+.end-banner .more{
+  margin-left: 10%;
+  margin-top: 2em;
+   
+}
+
+.end-banner a{
+  font-size: 1em; 
+  margin-right: 3em; 
+  text-decoration: none; 
+
+}
+
+.socials{
+  width: 3em; 
+  position: absolute; 
+  right: 1em; 
+  bottom: 0; 
+
+}
+
+
+.main .cards{
+  width: 20em; 
+  height: 20em; 
+  background-color: grey;
+  margin-top: 20em; 
+  margin-bottom: 20em;  
 }
 
