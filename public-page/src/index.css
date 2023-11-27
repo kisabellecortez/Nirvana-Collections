@@ -6,7 +6,7 @@
 }
 
 html, body{
-  height: 100vh; 
+  height: 1000vh; 
 
 }
 
@@ -23,26 +23,35 @@ body{
 
 }
 
+.menu.open > .sidebar{
+  width: 260px; 
+
+}
+
 .sidebar{
   margin-top: 50px; 
-  width: 260px; 
+  width: 0px; 
   flex-shrink: 0; 
   background-color: #e5c0fc; 
   height: 100%; 
   overflow: auto; 
+  position: fixed; 
+  transition: width 0.5s ease-in-out; 
 
 }
 
 .sidebar-item{
+  position: relative;
+  display: block;
   padding: 1em; 
   font-size: 1.1em;
-  display: block; 
   cursor: pointer; 
   text-decoration: none; 
 
 }
 
 .sidebar-title{
+  white-space: nowrap;
   display: flex; 
   justify-content: space-between;
   font-size: 25px; 
@@ -53,23 +62,25 @@ body{
 
 }
 
-.sidebar-title .toggle-btn{
+.sidebar-title .toggle-btn{ 
   width: 20px; 
   cursor: pointer;
   transition: transform .3s; 
 
 }
 
-.sidebar-item.open > .sidebar-title .toggle-btn{
+.sidebar-item.open .sidebar-title .toggle-btn{
   transform: rotate(-180deg)
 
 }
 
 .sidebar-content{ 
-  overflow: hidden; 
+  white-space: nowrap;
+  padding-top: 10px; 
   font-family: Impact, fantasy;
   color: #7030a0;
   height: 0; 
+  overflow: hidden;
 
 }
 
@@ -77,3 +88,54 @@ body{
   height: auto; 
   
 }
+
+.btn-container{
+  display: inline-block; 
+  width: 40px; 
+  height: 40px;
+  margin-left: 5px; 
+  perspective: 800px; 
+  vertical-align: auto;
+  transition: 0.2s ease;
+  position: fixed; 
+
+}
+
+.btn-container.open > .sidebar{
+  width: 260px; 
+}
+
+.btn-container:active > .btn-card{
+  cursor: pointer; 
+  transform: rotateY(180deg);
+
+}
+
+.btn-card{
+  width: 100%; 
+  height: 100%; 
+  position: relative; 
+  transition: transform 1500ms; 
+  transform-style: preserve-3d; 
+
+}
+
+.open-btn{
+  backface-visibility: hidden;
+  width: 100%; 
+  height: 100%;
+  position: absolute; 
+  vertical-align: middle;
+
+}
+
+.close-btn{
+  transform: rotateY(180deg);
+  vertical-align: middle;
+  backface-visibility: hidden;
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+
+}
+
