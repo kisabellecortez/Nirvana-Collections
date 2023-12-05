@@ -1,5 +1,7 @@
 .main{
   position: absolute; 
+  width: 100%; 
+  overflow: hidden; 
 
 }
 
@@ -18,6 +20,7 @@
   vertical-align: middle;
   width: 3.2em; 
   height: 2.7em; 
+  left: 50%; 
   margin-left: 42%; 
   margin-top: 0.25em; 
 
@@ -33,7 +36,7 @@
 
 .end-banner{ 
   position: absolute; 
-  display: inline-block; 
+  display: inline; 
   bottom: 0; 
   width: 100%;
   height: 20em; 
@@ -43,9 +46,9 @@
 }
 
 .end-banner .support{
+  float: left; 
   margin-left: 5%; 
   margin-top: 2em; 
-  width: 100%;
 
 }
 
@@ -57,7 +60,8 @@
 }
 
 .end-banner .more{
-  margin-left: 10%;
+  float: right; 
+  margin-right: 20%; 
   margin-top: 2em;
    
 }
@@ -69,20 +73,51 @@
 
 }
 
-.socials{
-  width: 3em; 
-  position: absolute; 
-  right: 1em; 
-  bottom: 0; 
+.socials{ 
+  float: right; 
+  margin-top: 10em;
+  display: flex;
+  margin-left: 90%; 
 
 }
 
+.socials img{
+  width: 2.5em; 
+  margin-left: -1.5em; 
 
-.main .cards{
-  width: 20em; 
-  height: 20em; 
-  background-color: grey;
-  margin-top: 20em; 
-  margin-bottom: 20em;  
+}
+
+.main .home-page{
+  width: 100%; 
+  height: 1000vh; 
+}
+
+.main .home-page .new-arrivals, .bestsellers{
+  background-color: grey; 
+  width: 100%; 
+  height: 100vh;
+} 
+
+.main .home-page .new-arrivals{
+  background-color:grey; 
+}
+
+.main .home-page .bestsellers{
+  background-color: red;
+  margin-bottom: 5em; 
+}
+
+.main .home-page .about{
+  text-decoration: none; 
+  text-align:center; 
+}
+
+.main .home-page h1{
+  margin-bottom: 1.5em; 
+}
+
+.main .home-page p{
+  margin-bottom:1em; 
+  font-size: 1.2em;
 }
 
