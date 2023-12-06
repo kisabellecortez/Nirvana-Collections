@@ -28,10 +28,38 @@ export default function Home(){
                 <div className="pcard">
 
                 </div>
+
+                <div className="pcard">
+
+                </div>
+
+                <div className="pcard">
+
+                </div>
+
+                <div className="pcard">
+
+                </div>
             </div>
 
             <div className="pcard-section">
                 <h1>NEW ARRIVALS</h1>
+
+                <div className="pcard">
+
+                </div>
+
+                <div className="pcard">
+
+                </div>
+
+                <div className="pcard">
+
+                </div>
+
+                <div className="pcard">
+
+                </div>
             </div>
 
             <EndBanner/>

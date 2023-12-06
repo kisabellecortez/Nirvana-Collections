@@ -1,12 +1,12 @@
 [
     {   
         "title": "HOME", 
-        "path": "/"
+        "path": "/home"
 
     },
     {
         "title": "SHOP", 
-        "path": "/",
+        "path": "/shop",
         "childrens": [
             {
                 "title": "EARRINGS", 
