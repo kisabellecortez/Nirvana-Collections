@@ -147,7 +147,7 @@ body{
 }
 
 .contact-us .form h1{
-  margin:15vh 0 5vh 0;
+  margin:12vh 0 5vh 0;
   text-align:center;
   font-size:7vh;
   color:#7030a0;
@@ -176,12 +176,13 @@ body{
 }
 
 .contact-us button{
+  margin-left:10%;
   text-align:center;
   padding:15px 32px;
   display:inline-block;
-  font-size:16px; 
+  font-size:2.5vh; 
   text-decoration:none;
-  color:white;
+  color:#fff;
   border:none; 
   background-color:#7030a0;
 }
