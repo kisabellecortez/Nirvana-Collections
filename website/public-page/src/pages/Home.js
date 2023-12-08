@@ -4,10 +4,11 @@ import EndBanner from '../components/EndBanner.js'
 
 export default function Home(){
     return(
-        <div className="home" >
+        <div>
             <Sidebar/>
             <TopNav/>
             
+            <div className="home">
             <div className = "new-arrivals">
             
             </div>
@@ -60,6 +61,8 @@ export default function Home(){
                 <div className="pcard">
 
                 </div>
+            </div>
+
             </div>
 
             <EndBanner/>
