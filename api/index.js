@@ -11,7 +11,7 @@ var CONNECTION_STRING = "mongodb+srv://kisabelle:20Kristina04@cluster0.x9kfe73.m
 var DATABASENAME = "nirvana-collections"; 
 var database; 
 
-app.listen(3002, ()=>{
+app.listen(5000, ()=>{
     Mongoclient.connect(CONNECTION_STRING,(error, client)=>{
         database = client.db(DATABASENAME); 
         console.log("Mongo DB Connection Successful"); 

@@ -10,7 +10,7 @@
         "childrens": [
             {
                 "title": "EARRINGS", 
-                "path": "/"
+                "path": "/shop/earrings"
             }, 
             {
                 "title": "NECKLACES", 
@@ -56,5 +56,9 @@
         "title": "CONTACT US", 
         "path": "/contactus"
 
+    }, 
+    {
+        "title": "LOGOUT",
+        "path": "/home"
     }
 ]

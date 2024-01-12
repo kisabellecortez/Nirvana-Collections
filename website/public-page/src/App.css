@@ -84,7 +84,7 @@ body{
 
 }
 
-.home, .contact-us{
+.home, .contact-us, .earrings{
   overflow:auto;
   position:relative; 
   display:block; 
@@ -117,18 +117,18 @@ body{
   margin-bottom: 3vh;
 }
 
-.home .pcard-section{
+.pcard-section{
   width: 100%; 
   margin-top:20vh;
 }
 
-.home .pcard-section h1{
+.pcard-section h1{
   text-align:center;
   color:#7030a0; 
   font-size:5vh;
 }
 
-.home .pcard{
+.pcard{
   display:inline-block; 
   background-color: #f8f7f5; 
   width: 40vh; 
@@ -136,18 +136,18 @@ body{
   margin: 5vh 1.5vh 10vh 5vh;
 }
 
-.home .pcard:hover{
+.pcard:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .contact-us .form{
+  margin:12vh 0 5vh 0;
   width:100%; 
   height:100vh; 
   margin-bottom:10vh;
 }
 
 .contact-us .form h1{
-  margin:12vh 0 5vh 0;
   text-align:center;
   font-size:7vh;
   color:#7030a0;
@@ -187,10 +187,27 @@ body{
   background-color:#7030a0;
 }
 
+/* This is a single-line comment */
+.sign-in{
+  height: 100vh; 
+  width: 100%;
+  background-color: #e5c0fc; 
+}
 
+.sign-in h1{
+  text-align: center;
+  margin-bottom: 5vh; 
+  color: #7030a0;
+}
 
+.sign-in .sign-in-card{
+  width: 60vh; 
+  height: 80vh; 
+  background-color: red; 
+  border-radius: 20px; 
+  margin: auto; 
+}
 
-
-
-
-
+label{
+  color: #7030a0;
+}

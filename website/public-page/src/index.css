@@ -76,7 +76,6 @@ body{
 
 .sidebar-item.open .sidebar-title .toggle-btn{
   transform: rotate(-180deg)
-
 }
 
 .sidebar-content{ 

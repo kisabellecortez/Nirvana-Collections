@@ -3,6 +3,7 @@ import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
 
 export default function Home(){
+    
     return(
         <div>
             <Sidebar/>
@@ -26,9 +27,7 @@ export default function Home(){
             <div className = "pcard-section">
                 <h1>BESTSELLERS</h1>
 
-                <div className="pcard">
-
-                </div>
+              
 
                 <div className="pcard">
 
