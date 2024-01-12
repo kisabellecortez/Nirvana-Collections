@@ -84,7 +84,7 @@ body{
 
 }
 
-.home, .contact-us, .earrings{
+.home, .contact-us, .earrings, .admin{
   overflow:auto;
   position:relative; 
   display:block; 
@@ -187,7 +187,7 @@ body{
   background-color:#7030a0;
 }
 
-/* This is a single-line comment */
+/* SignIn and SignOut */
 .sign-in{
   height: 100vh; 
   width: 100%;
@@ -210,4 +210,25 @@ body{
 
 label{
   color: #7030a0;
+}
+
+/* Admin */
+.admin{
+  height: 100vh; 
+  width: 100%; 
+}
+
+.admin .add-form{
+  padding-top: 5vh; 
+  margin-top: 10vh;
+  margin-left: 100px; 
+  height: 50vh; 
+  width: 50vh; 
+  background-color: #e5c0fc; 
+  border-radius: 20px; 
+}
+
+.admin .add-form .input, button{
+  margin-left: 5vh; 
+  margin-top: 5vh; 
 }

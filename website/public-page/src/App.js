@@ -12,6 +12,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import ShoppingCart from './pages/ShoppingCart'
 import Account from './pages/Account'
+import Admin from './pages/Admin'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="signup" element={<SignUp/>}/>
             <Route path="shoppingcart" element={<ShoppingCart/>}/>
             <Route path="account" element={<Account/>}/>
+            <Route path="admin" element={<Admin/>}/>
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>

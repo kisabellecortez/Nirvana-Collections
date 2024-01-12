@@ -2,6 +2,8 @@ import Arrow from '../assets/menu-dropdown.svg'
 import {useState} from "react"
 import { UserAuth } from '../context/AuthContext.js'
 import {useNavigate} from 'react-router-dom'
+import { auth } from '../firebase';
+import { getAuth } from "firebase/auth";
 
 export default function SidebarItem({item}){
     const [open, setOpen] = useState(false)
@@ -35,16 +37,38 @@ export default function SidebarItem({item}){
         </div>
     )
     }
+    else if(item.title === "ADD/EDIT PRODUCTS"){
+        const auth = getAuth()
+        const user = auth.currentUser
+        if(user){
+            if(user.email === "kisabellecortez@gmail.com" || user.email === "sarathingalaya@gmail.com"){
+                return(
+                    <a href = {item.path || '#'} className = "sidebar-item">
+                        <div className = "sidebar-title">
+                            <span>
+                                {item.title}
+                            </span>
+                        </div>
+                    </a>
+                )
+            }
+        }
+    }
     else if(item.title === "LOGOUT"){
-        return(
-            <a href = {item.path || '#'} className = "sidebar-item">
-                <div className = "sidebar-title" onClick={(handleSignOut)}>
-                    <span>
-                        {item.title}
-                    </span>
-                </div>
-            </a>
-        )
+        const auth = getAuth()
+        const user = auth.currentUser
+        
+        if(user){
+            return(
+                <a href = {item.path || '#'} className = "sidebar-item">
+                    <div className = "sidebar-title" onClick={(handleSignOut)}>
+                        <span>
+                            {item.title}
+                        </span>
+                    </div>
+                </a>
+            )
+        }
     }
     else{
         return(

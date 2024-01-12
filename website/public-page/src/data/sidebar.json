@@ -58,6 +58,10 @@
 
     }, 
     {
+        "title": "ADD/EDIT PRODUCTS", 
+        "path": "/admin"
+    },
+    {
         "title": "LOGOUT",
         "path": "/home"
     }

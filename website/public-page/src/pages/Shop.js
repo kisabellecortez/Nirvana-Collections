@@ -6,6 +6,7 @@ export default function Shop(){
     return(
         <div className = "main">
             <Sidebar/>
+            <TopNav/>
             <h1>Shop</h1>
         </div>
     )

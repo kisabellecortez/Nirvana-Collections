@@ -78,10 +78,8 @@ const SignIn =()=>{
               </div>
               <button type="submit"  onClick={ handleSignIn }>Sign In</button>
             </div>
+            <p>Don't have an account? Sign up <a href="/signup">here.</a></p>
           </div> 
-          
-          <p>Don't have an account? Sign up <a href="/signup">here.</a></p>
-        
       </div>
     );
 };

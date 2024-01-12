@@ -6,6 +6,7 @@ export default function FAQ(){
     return(
         <div className = "main">
             <Sidebar/>
+            <TopNav/>
             <h1>FAQ</h1>
         </div>
     )
