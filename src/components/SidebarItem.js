@@ -2,7 +2,6 @@ import Arrow from '../assets/menu-dropdown.svg'
 import {useState} from "react"
 import { UserAuth } from '../context/AuthContext.js'
 import {useNavigate} from 'react-router-dom'
-import { auth } from '../firebase';
 import { getAuth } from "firebase/auth";
 
 export default function SidebarItem({item}){

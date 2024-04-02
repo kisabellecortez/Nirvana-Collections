@@ -6,7 +6,9 @@ export default function Blog(){
     return(
         <div className = "main">
             <Sidebar/>
+            <TopNav/>
             <h1>Blog</h1>
+            <EndBanner/>
         </div>
     )
 }

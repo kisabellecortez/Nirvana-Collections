@@ -8,6 +8,8 @@ export default function FAQ(){
             <Sidebar/>
             <TopNav/>
             <h1>FAQ</h1>
+
+            <EndBanner/>
         </div>
     )
 }

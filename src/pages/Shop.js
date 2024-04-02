@@ -8,6 +8,8 @@ export default function Shop(){
             <Sidebar/>
             <TopNav/>
             <h1>Shop</h1>
+
+            <EndBanner/>
         </div>
     )
 }
