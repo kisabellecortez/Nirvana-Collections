@@ -37,14 +37,11 @@ export const AuthContextProvider = ({ children })=> {
         
     }
 
+    /* add product in database */
     const addProduct = async(name, price, description, stock)=>{
-        // make product id 
-        var id = ""; 
-        
-        for(let i = 0; i < name.length; i++){
-            id += name.charCodeAt(i); 
-        }
+        var id = getId(name); 
 
+        // add document 
         await setDoc(doc(db, "products", id), {
             name: name, 
             price: price, 
@@ -53,16 +50,12 @@ export const AuthContextProvider = ({ children })=> {
         });
     }
 
+    /* edit product in database */
     const editProduct = async(name, price, description, stock)=>{
-        // make product id 
-        var id = ""; 
-        
-        for(let i = 0; i < name.length; i++){
-            id += name.charCodeAt(i); 
-        }
-
+        var id = getId(name); 
         const docToUpdate = doc(db, "products", id); 
 
+        // update document 
         await updateDoc(docToUpdate, {
             name: name, 
             price: price, 
@@ -71,15 +64,24 @@ export const AuthContextProvider = ({ children })=> {
         })
     }
 
+    /* delete product from database */
     const delProduct = async(name)=>{
-        // make product id 
+        var id = getId(name); 
+
+        // delete document 
+        await deleteDoc(doc(db, "products", id))
+    }
+
+    // creates id from name
+    function getId(name){
         var id = ""; 
         
+        // concatenate ascii codes
         for(let i = 0; i < name.length; i++){
             id += name.charCodeAt(i); 
         }
 
-        await deleteDoc(doc(db, "products", id))
+        return id; 
     }
     
     useEffect(() => {
