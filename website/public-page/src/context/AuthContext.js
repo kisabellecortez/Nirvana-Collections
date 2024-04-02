@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
 import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from 'firebase/auth';
 import { auth, db } from '../firebase.js' 
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 
 const AuthContext = createContext()
 
@@ -37,18 +37,49 @@ export const AuthContextProvider = ({ children })=> {
         
     }
 
-    function addEntry(entry){
-        //get date to use as id 
-        const date = new Date();  
-        const day = date.getDate(); 
-        const month = date.getMonth(); 
-        const year = date.getFullYear(); 
-        const id = (day.toString() + month.toString() + year.toString())
+    const addProduct = async(name, price, description, stock)=>{
+        // make product id 
+        var id = ""; 
+        
+        for(let i = 0; i < name.length; i++){
+            id += name.charCodeAt(i); 
+        }
 
-        //add data to users database
-        setDoc(doc(db, user.uid, id), {
-            string: entry
+        await setDoc(doc(db, "products", id), {
+            name: name, 
+            price: price, 
+            description: description, 
+            stock: stock
+        });
+    }
+
+    const editProduct = async(name, price, description, stock)=>{
+        // make product id 
+        var id = ""; 
+        
+        for(let i = 0; i < name.length; i++){
+            id += name.charCodeAt(i); 
+        }
+
+        const docToUpdate = doc(db, "products", id); 
+
+        await updateDoc(docToUpdate, {
+            name: name, 
+            price: price, 
+            description: description, 
+            stock: stock
         })
+    }
+
+    const delProduct = async(name)=>{
+        // make product id 
+        var id = ""; 
+        
+        for(let i = 0; i < name.length; i++){
+            id += name.charCodeAt(i); 
+        }
+
+        await deleteDoc(doc(db, "products", id))
     }
     
     useEffect(() => {
@@ -62,7 +93,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addEntry, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
+        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
             { children }
         </AuthContext.Provider>
     );

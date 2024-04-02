@@ -96,6 +96,10 @@ body{
   height:100vh;  
 }
 
+.home .pcard-section .prod p{
+  color: black; 
+}
+
 .home .new-arrivals{
   background-color:grey; 
 }
@@ -216,19 +220,23 @@ label{
 .admin{
   height: 100vh; 
   width: 100%; 
+  display: flex; 
+  flex-direction: row; 
 }
 
-.admin .add-form{
+.admin .admin-form{
   padding-top: 5vh; 
-  margin-top: 10vh;
-  margin-left: 100px; 
+  margin-top: 20vh;
+  margin-left: auto; 
+  margin-right: auto;  
   height: 50vh; 
-  width: 50vh; 
+  width: 60vh; 
   background-color: #e5c0fc; 
   border-radius: 20px; 
+  float: left; 
 }
 
-.admin .add-form .input, button{
+.admin .admin-form .input, button{
   margin-left: 5vh; 
   margin-top: 5vh; 
 }
