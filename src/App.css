@@ -218,18 +218,24 @@ label{
 
 /* Admin */
 .admin{
-  height: 100vh; 
+  height: auto;  
   width: 100%; 
   display: flex; 
   flex-direction: row; 
 }
 
+.admin h1{
+  text-align: center; 
+  color: #7030a0;
+}
+
 .admin .admin-form{
   padding-top: 5vh; 
-  margin-top: 20vh;
+  margin-top: 10vh;
   margin-left: auto; 
   margin-right: auto;  
-  height: 50vh; 
+  margin-bottom: 20vh; 
+  height: 80vh; 
   width: 60vh; 
   background-color: #e5c0fc; 
   border-radius: 20px; 

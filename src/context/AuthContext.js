@@ -38,7 +38,7 @@ export const AuthContextProvider = ({ children })=> {
     }
 
     /* add product in database */
-    const addProduct = async(name, price, description, stock)=>{
+    const addProduct = async(name, price, description, stock, type, material, stone)=>{
         var id = getId(name); 
 
         // add document 
@@ -46,7 +46,8 @@ export const AuthContextProvider = ({ children })=> {
             name: name, 
             price: price, 
             description: description, 
-            stock: stock
+            stock: stock,
+            properties: [type, material, stone]
         });
     }
 
