@@ -9,6 +9,10 @@
         "path": "/shop",
         "childrens": [
             {
+                "title": "ALL PRODUCTS",
+                "path": "/shop/all"
+            },
+            {
                 "title": "EARRINGS", 
                 "path": "/shop/earrings"
             }, 

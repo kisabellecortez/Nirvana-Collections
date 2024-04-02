@@ -123,21 +123,46 @@ body{
 
 .pcard-section{
   width: 100%; 
-  margin-top:20vh;
+  padding: 10vh 2.5vh;
 }
 
 .pcard-section h1{
-  text-align:center;
+  text-align: center;
   color:#7030a0; 
   font-size:5vh;
 }
 
 .pcard{
-  display:inline-block; 
+  justify-content: center; 
+  align-items: center; 
+  display: inline-block; 
   background-color: #f8f7f5; 
-  width: 40vh; 
-  height:50vh; 
-  margin: 5vh 1.5vh 10vh 5vh;
+  width: 50vh; 
+  height:70vh; 
+  margin: 2.5vh 5vh;
+  color:#7030a0;
+  padding: 20px; 
+}
+
+.pcard h4{
+  display: inline; 
+  float: left; 
+  position: relative; 
+  margin-top: 90%; 
+  width: 50%; 
+}
+
+.pcard .price{
+  display: inline; 
+  float: right; 
+  position: relative; 
+  margin-top: 90%; 
+}
+
+.pcard .description{
+  position: relative; 
+  margin-top: 110%;
+  text-align: left; 
 }
 
 .pcard:hover{

@@ -4,6 +4,7 @@ import './App.css';
 
 import Home from './pages/Home'
 import Shop from './pages/Shop'
+import ShopAll from './pages/Shop_All'
 import FAQ from './pages/FAQ'
 import Blog from './pages/Blog'
 import ContactUs from './pages/ContactUs'
@@ -25,6 +26,7 @@ function App() {
             <Route path="/home" element={<Home/>}/>
             <Route path="shop" element={<Shop/>}/>
             <Route path="shop/earrings" element={<Earrings/>}/>
+            <Route path="shop/all" element={<ShopAll/>}/>
             <Route path="faq" element={<FAQ/>}/>
             <Route path="blog" element={<Blog/>}/>
             <Route path="contactus" element={<ContactUs/>}/>
