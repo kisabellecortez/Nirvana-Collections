@@ -2,7 +2,7 @@ import React, { useContext, createContext, useState, useEffect } from 'react';
 import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
 import { doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { ref, uploadBytes } from 'firebase/storage'
 
 const AuthContext = createContext()
 
