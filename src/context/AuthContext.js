@@ -1,14 +1,13 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
 import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
-import { doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, setDoc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
 
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children })=> {
     const [user, setUser] = useState({});
-    var currDate = ''
 
     const googleSignIn =()=> {
         const provider = new GoogleAuthProvider();
@@ -17,7 +16,16 @@ export const AuthContextProvider = ({ children })=> {
 
     const signIn = (email, password) =>  {
         return signInWithEmailAndPassword(auth, email, password)
-       }
+    }
+
+    const createUser = async(email, password)=>{
+        await createUserWithEmailAndPassword(auth, email, password);
+        await addDoc(collection(db, "users"), {
+            purchases: {},
+            cartP: {}, 
+            favourites: {}
+        })
+    }
 
     const logOut =()=>{
         return signOut(auth)
@@ -25,17 +33,6 @@ export const AuthContextProvider = ({ children })=> {
 
     const delUser =()=>{
         return deleteUser(user)
-    }
-
-    const createUser = async(email, password) =>{
-        const date = new Date();  
-        const day = date.getDate(); 
-        const month = date.getMonth(); 
-        const year = date.getFullYear(); 
-        currDate = (day.toString() + month.toString() + year.toString())
-        console.log(currDate)
-        await createUserWithEmailAndPassword(auth, email, password)
-        
     }
 
     /* add product in database */
