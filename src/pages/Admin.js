@@ -8,6 +8,7 @@ export default function Admin(){
     const { addProduct } = UserAuth();
     const { editProduct } = UserAuth(); 
     const { delProduct } = UserAuth(); 
+    const { uploadImage } = UserAuth(); 
 
     /* form variables */
     const [nameA, setNameA] = useState('')
@@ -17,6 +18,7 @@ export default function Admin(){
     const [typeA, setTypeA] = useState('')
     const [materialA, setMaterialA] = useState('')
     const [stoneA, setStoneA] = useState('')
+    const [fileA, setFileA] = useState('')
 
     const [nameE, setNameE] = useState('')
     const [priceE, setPriceE] = useState('')
@@ -31,6 +33,7 @@ export default function Admin(){
     /* add product function */
     const handleAddProduct = async()=>{
         await addProduct(nameA, priceA, descriptionA, stockA, typeA, materialA, stoneA); 
+        await uploadImage(nameA, fileA); 
         window.alert("Product successfully added"); 
     }
 
@@ -160,6 +163,16 @@ export default function Admin(){
                         required></input>
                     </div>
 
+                    <div className="input">
+                        <label for="file">UPLOAD IMAGE: </label>
+                        <input 
+                        type="file"
+                        id="file"
+                        name="file"
+                        onChange={(e)=>setFileA(e.target.files[0])}
+                        required></input>
+                    </div>
+
                     <button type="submit"  onClick={ handleAddProduct }>ADD PRODUCT</button>
                 </div>
             </div>
@@ -187,8 +200,7 @@ export default function Admin(){
                         name="price" 
                         min="0"
                         value={priceE}
-                        onChange={(e)=>setPriceE(e.target.value)}
-                        required></input>
+                        onChange={(e)=>setPriceE(e.target.value)}></input>
                     </div>
 
                     <div className="input">
@@ -198,8 +210,7 @@ export default function Admin(){
                         id="description" 
                         name="description" 
                         value={descriptionE}
-                        onChange={(e)=>setDescriptionE(e.target.value)}
-                        required></input>
+                        onChange={(e)=>setDescriptionE(e.target.value)}></input>
                     </div>
 
                     <div className="input">
@@ -210,8 +221,7 @@ export default function Admin(){
                         name="stock" 
                         min="0"
                         value={stockE}
-                        onChange={(e)=>setStockE(e.target.value)}
-                        required></input>
+                        onChange={(e)=>setStockE(e.target.value)}></input>
                     </div>
 
                     <div className="input">
@@ -269,8 +279,7 @@ export default function Admin(){
                         id="stone" 
                         name="stone" 
                         value={stoneE}
-                        onChange={(e)=>setStoneE(e.target.value)}
-                        required></input>
+                        onChange={(e)=>setStoneE(e.target.value)}></input>
                     </div>
 
                     <button type="submit"  onClick={ handleEditProduct }>EDIT PRODUCT</button>

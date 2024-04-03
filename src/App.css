@@ -136,19 +136,25 @@ body{
   justify-content: center; 
   align-items: center; 
   display: inline-block; 
-  background-color: #f8f7f5; 
+  background-color: #f9f9f9; 
   width: 50vh; 
   height:70vh; 
   margin: 2.5vh 5vh;
   color:#7030a0;
-  padding: 20px; 
+  padding: 2.5vh; 
+}
+
+.pcard img{
+  display: block; 
+  width: 45vh; 
+  height: 45vh; 
 }
 
 .pcard h4{
   display: inline; 
   float: left; 
   position: relative; 
-  margin-top: 90%; 
+  margin-top: 5%; 
   width: 50%; 
 }
 
@@ -156,12 +162,12 @@ body{
   display: inline; 
   float: right; 
   position: relative; 
-  margin-top: 90%; 
+  margin-top: 5%; 
 }
 
 .pcard .description{
   position: relative; 
-  margin-top: 110%;
+  margin-top: 20%;
   text-align: left; 
 }
 

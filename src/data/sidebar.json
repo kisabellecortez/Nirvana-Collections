@@ -14,7 +14,7 @@
             },
             {
                 "title": "EARRINGS", 
-                "path": "/shop/earrings"
+                "path": "/"
             }, 
             {
                 "title": "NECKLACES", 
@@ -26,7 +26,7 @@
             },
             {
                 "title": "RINGS", 
-                "path": "/"
+                "path": "/shop/rings"
             },
             {
                 "title": "ANKLETS", 

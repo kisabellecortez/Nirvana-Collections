@@ -3,12 +3,11 @@ import { AuthContextProvider } from './context/AuthContext.js'
 import './App.css';
 
 import Home from './pages/Home'
-import Shop from './pages/Shop'
-import ShopAll from './pages/Shop_All'
+import ShopAll from './pages/Shop/Shop_All'
+import ShopRings from './pages/Shop/Shop_Rings'
 import FAQ from './pages/FAQ'
 import Blog from './pages/Blog'
 import ContactUs from './pages/ContactUs'
-import Earrings from './pages/Shop_Earrings'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import ShoppingCart from './pages/ShoppingCart'
@@ -24,9 +23,8 @@ function App() {
           <Routes>
             <Route index element={<Home/>}/>
             <Route path="/home" element={<Home/>}/>
-            <Route path="shop" element={<Shop/>}/>
-            <Route path="shop/earrings" element={<Earrings/>}/>
             <Route path="shop/all" element={<ShopAll/>}/>
+            <Route path="shop/rings" element={<ShopRings/>}/>
             <Route path="faq" element={<FAQ/>}/>
             <Route path="blog" element={<Blog/>}/>
             <Route path="contactus" element={<ContactUs/>}/>

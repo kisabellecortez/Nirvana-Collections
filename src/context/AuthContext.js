@@ -1,7 +1,8 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
 import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from 'firebase/auth';
-import { auth, db } from '../firebase.js' 
+import { auth, db, imageDb } from '../firebase.js' 
 import { doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
 
 const AuthContext = createContext()
 
@@ -47,7 +48,8 @@ export const AuthContextProvider = ({ children })=> {
             price: price, 
             description: description, 
             stock: stock,
-            properties: [type, material, stone]
+            properties: [type, material, stone], 
+            image: id
         });
     }
 
@@ -73,6 +75,14 @@ export const AuthContextProvider = ({ children })=> {
         await deleteDoc(doc(db, "products", id))
     }
 
+    /* upload product image into database */
+    const uploadImage = async(name, file)=>{
+        var id = getId(name); 
+
+        const storageRef = await ref(imageDb, 'products/' + id);
+        return uploadBytes(storageRef, file); 
+    }
+
     // creates id from name
     function getId(name){
         var id = ""; 
@@ -96,7 +106,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
+        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
             { children }
         </AuthContext.Provider>
     );
