@@ -6,7 +6,7 @@ import { db } from '../../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
-export default function Shop_Necklaces(){
+export default function Shop_Anklets(){
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
@@ -15,7 +15,7 @@ export default function Shop_Necklaces(){
             const querySnapshot = await getDocs(collection(db, "products"));
             const productsData = querySnapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))
-            .filter(product => product.properties && product.properties[0] === "necklace");
+            .filter(product => product.properties && product.properties[0] === "anklet");
             
             setData(productsData);
 

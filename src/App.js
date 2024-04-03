@@ -4,7 +4,13 @@ import './App.css';
 
 import Home from './pages/Home'
 import ShopAll from './pages/Shop/Shop_All'
+import ShopEarrings from './pages/Shop/Shop_Earrings'
+import ShopNecklaces from './pages/Shop/Shop_Necklaces'
+import ShopBracelets from './pages/Shop/Shop_Bracelets'
 import ShopRings from './pages/Shop/Shop_Rings'
+import ShopAnklets from './pages/Shop/Shop_Anklets'
+import ShopPhoneCharms from './pages/Shop/Shop_PhoneCharms'
+import ShopCrystals from './pages/Shop/Shop_Crystals'
 import FAQ from './pages/FAQ'
 import Blog from './pages/Blog'
 import ContactUs from './pages/ContactUs'
@@ -24,7 +30,13 @@ function App() {
             <Route index element={<Home/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="shop/all" element={<ShopAll/>}/>
+            <Route path="shop/earrings" element={<ShopEarrings/>}/>
+            <Route path="shop/necklaces" element={<ShopNecklaces/>}/>
+            <Route path="shop/bracelets" element={<ShopBracelets/>}/>
             <Route path="shop/rings" element={<ShopRings/>}/>
+            <Route path="shop/anklets" element={<ShopAnklets/>}/>
+            <Route path="shop/phone-charms" element={<ShopPhoneCharms/>}/>
+            <Route path="shop/crystals" element={<ShopCrystals/>}/>
             <Route path="faq" element={<FAQ/>}/>
             <Route path="blog" element={<Blog/>}/>
             <Route path="contactus" element={<ContactUs/>}/>
