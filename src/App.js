@@ -39,7 +39,7 @@ function App() {
             <Route path="shop/crystals" element={<ShopCrystals/>}/>
             <Route path="faq" element={<FAQ/>}/>
             <Route path="blog" element={<Blog/>}/>
-            <Route path="contactus" element={<ContactUs/>}/>
+            <Route path="contact-us" element={<ContactUs/>}/>
             <Route path="signin" element={<SignIn/>}/>
             <Route path="signup" element={<SignUp/>}/>
             <Route path="shoppingcart" element={<ShoppingCart/>}/>

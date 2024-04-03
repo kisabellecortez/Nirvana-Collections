@@ -6,7 +6,7 @@ export default function EndBanner(){
         <div className="end-banner">
             <div className="support">
                 <h1>SUPPORT</h1>
-                <a href="/">Contact Us</a>
+                <a href="/contact-us">Contact Us</a>
                 <a href = "/">FAQs</a>
                 <a href = "/">Jewelry Care</a>
                 <a href = "/">Ring Size Guide</a>
