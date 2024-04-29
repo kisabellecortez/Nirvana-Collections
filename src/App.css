@@ -121,9 +121,13 @@ body{
   margin-bottom: 3vh;
 }
 
+/* product cards */
 .pcard-section{
   width: 100%; 
   padding: 10vh 2.5vh;
+  justify-content: center; 
+  align-items: center; 
+  display: inline-block; 
 }
 
 .pcard-section h1{
@@ -173,6 +177,58 @@ body{
 
 .pcard:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* cart card */
+.cart{
+  margin-top: 10%; 
+  margin-bottom: 5%; 
+  padding: 20vh, 0, 20vh, 0; 
+  height: auto; 
+}
+
+.cartCard{
+  height: 15vh; 
+  background-color: #f9f9f9; 
+  width: 75%;
+  margin: auto; 
+  margin-top: 2vh; 
+  display: flex;
+  align-items: center; 
+}
+
+.cartCard img{
+  height: 12vh; 
+  width: 12vh; 
+  margin: 1.5vh; 
+}
+
+.cartCard h4{
+  color: #7030a0;
+  margin: 2.5vh; 
+}
+
+.cartCard .prodPrice{
+  margin-left: auto;  
+}
+
+.shopping-card hr{
+  width: 80%;
+  margin: auto; 
+}
+
+.shopping-card .total{
+  color: #7030a0;
+  width: 75%; 
+  margin: auto; 
+  margin-top: 5%; 
+  margin-bottom: 5%; 
+  display: flex;
+  align-items: center; 
+}
+
+.shopping-card .total-price{
+  margin-left: auto; 
 }
 
 .contact-us .form{

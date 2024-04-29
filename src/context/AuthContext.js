@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
-import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from 'firebase/auth';
+import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
-import { doc, setDoc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore'
+import { doc, getDoc, addDoc, getDocs, setDoc, updateDoc, deleteDoc, arrayUnion, collection } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
 
 const AuthContext = createContext()
@@ -18,12 +18,22 @@ export const AuthContextProvider = ({ children })=> {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    /* create user with email and password */
     const createUser = async(email, password)=>{
         await createUserWithEmailAndPassword(auth, email, password);
-        await addDoc(collection(db, "users"), {
-            purchases: {},
-            cartP: {}, 
-            favourites: {}
+        await signInWithEmailAndPassword(auth, email, password); 
+
+        const userAuth = getAuth(); 
+
+        // create user database
+        onAuthStateChanged(userAuth, (user)=>{
+            if(user){
+                const uid = user.uid; 
+                
+                setDoc(doc(db, 'users', uid), {
+                    
+                });
+            }
         })
     }
 
@@ -33,6 +43,50 @@ export const AuthContextProvider = ({ children })=> {
 
     const delUser =()=>{
         return deleteUser(user)
+    }
+
+    /* add to cart */
+    const addCart = async(id)=>{
+        try{    
+            // get user 
+            const auth = getAuth(); 
+            const user = auth.currentUser; 
+
+            // get product information 
+            const prodRef = doc(db, "products", id);
+            const prodSnapshot = await getDoc(prodRef);
+            const prodData = prodSnapshot.data();
+            const prodPrice = prodData.price;
+            const prodName = prodData.name; 
+            console.log("Product price:", prodPrice);
+
+            // reference the user's cart collection in Firestore
+            const cartCollectionRef = collection(db, "users", user.uid, "cart");
+
+            // reference the specific document (product) in the cart collection
+            const cartProductRef = doc(cartCollectionRef, id);
+
+            // check if the product already exists in the cart
+            const cartSnapshot = await getDoc(cartProductRef);
+
+            if (cartSnapshot.exists()) {
+                // if the product exists, increment its quantity
+                const existingQuantity = cartSnapshot.data().quantity;
+                const updatedQuantity = existingQuantity + 1;
+                await updateDoc(cartProductRef, { quantity: updatedQuantity });
+            } else {
+                // if the product doesn't exist, add it to the cart with quantity 1
+                await setDoc(cartProductRef, { 
+                    quantity: 1,
+                    name: prodName, 
+                    price: prodPrice 
+                });
+            }
+        }
+        catch(error){
+            alert('Product was unable to add to your cart.');
+            console.log(error); 
+        }
     }
 
     /* add product in database */
@@ -103,7 +157,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
+        <AuthContext.Provider value = {{ addCart, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
             { children }
         </AuthContext.Provider>
     );

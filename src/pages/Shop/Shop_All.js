@@ -5,8 +5,16 @@ import React, { useState, useEffect } from 'react'
 import { db } from '../../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
+import { UserAuth } from '../../context/AuthContext.js'
+import { getAuth } from 'firebase/auth'
+
+import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
 
 export default function Shop_All(){
+    const { addCart } = UserAuth(); 
+
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
@@ -18,7 +26,7 @@ export default function Shop_All(){
             setData(productsData);
 
             const storage = getStorage();
-            const imageDb = ref(storage, "products"); // Adjust this path according to your Firebase Storage structure
+            const imageDb = ref(storage, "products"); 
 
             listAll(imageDb)
                 .then(imgs => {
@@ -34,6 +42,21 @@ export default function Shop_All(){
 
         fetchData();
     }, []);
+
+    /* add product to cart */
+    const handleAddCart = async(id)=>{
+        // get user 
+        const auth = getAuth(); 
+        const user = auth.currentUser; 
+
+        // add to database cart if user is signed in 
+        if(user){
+            await addCart(id); 
+        }
+        // add to local cart if no user
+        else{
+        }
+    }
 
     return(
         <div>
@@ -52,6 +75,9 @@ export default function Shop_All(){
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
                             <p className="description">{product.description}</p>
+                            <IconButton type="submit" onClick={()=>handleAddCart(product.id)} color="primary" aria-label="add to shopping cart"> 
+                                <AddShoppingCartIcon />
+                            </IconButton>
                         </div>
                     ))}
     

@@ -16,8 +16,8 @@ const SignUp =()=>{
     const handleSignUp = async()=>{
         try{
             if(password === passwordC){
-                await createUser(email, password)
-                navigate('/account')
+                await createUser(email, password); 
+                navigate('/home')
                 
             }
             else{
