@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 
 /* Firebase */
 import { db } from '../firebase.js'
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
@@ -19,28 +19,36 @@ export default function ShoppingCart(){
     useEffect(() => {
         const fetchData = async() => {
             const auth = getAuth(); 
-            const user = auth.currentUser; 
+            
+            onAuthStateChanged(auth, async (user) => {
+                console.log(user); 
 
-            if(user){
-                const querySnapshot = await getDocs(collection(db, "users", user.uid, "cart"));
-                const cartData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                // display data from user cart database
+                if(user){
+                    const querySnapshot = await getDocs(collection(db, "users", user.uid, "cart"));
+                    const cartData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+                    setData(cartData);
+    
+                    const storage = getStorage(); 
+                    const imageDb = ref(storage, "products"); 
+    
+                    listAll(imageDb)
+                        .then(imgs => {
+                            const promises = imgs.items.map(item => getDownloadURL(item));
+                            Promise.all(promises)
+                                .then(urls => {
+                                    setImgURL(urls);
+                                })
+                                .catch(error => console.error(error));
+                        })
+                        .catch(error => (error));
+                }
+                // display data from temporary array 
+                else{
 
-                setData(cartData);
-
-                const storage = getStorage(); 
-                const imageDb = ref(storage, "products"); 
-
-                listAll(imageDb)
-                    .then(imgs => {
-                        const promises = imgs.items.map(item => getDownloadURL(item));
-                        Promise.all(promises)
-                            .then(urls => {
-                                setImgURL(urls);
-                            })
-                            .catch(error => console.error(error));
-                    })
-                    .catch(error => (error));
-            }
+                }
+            })
         };
 
         fetchData(); 
@@ -82,6 +90,10 @@ export default function ShoppingCart(){
             <div className="total">
                 <h1>TOTAL: </h1>
                 <h1 className="total-price">${totalPrice}</h1>
+            </div>
+
+            <div>
+
             </div>
 
             <EndBanner/>

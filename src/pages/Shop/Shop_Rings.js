@@ -2,11 +2,16 @@ import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
 import React, { useState, useEffect } from 'react'
+
+import { UserAuth } from '../../context/AuthContext.js'
+import { getAuth } from 'firebase/auth'
 import { db } from '../../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
 export default function Shop_Rings(){
+    const { addCart } = UserAuth(); 
+    
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
@@ -36,6 +41,21 @@ export default function Shop_Rings(){
 
         fetchData();
     }, []);
+
+    /* add product to cart */
+    const handleAddCart = async(id)=>{
+        // get user 
+        const auth = getAuth(); 
+        const user = auth.currentUser; 
+
+        // add to database cart if user is signed in 
+        if(user){
+            await addCart(id); 
+        }
+        // add to local cart if no user
+        else{
+        }
+    }
 
     return(
         <div>
