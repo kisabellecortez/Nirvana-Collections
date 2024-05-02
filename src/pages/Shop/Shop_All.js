@@ -1,16 +1,24 @@
+/* components */
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
-import React, { useState, useEffect } from 'react'
+
+/* React */
+import *  as React from 'react'
+import { useState, useEffect } from 'react'
+
+/* Firebase */
+import { UserAuth } from '../../context/AuthContext.js'
 import { db } from '../../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
-import { UserAuth } from '../../context/AuthContext.js'
 import { getAuth } from 'firebase/auth'
 
+/* Material UI */
 import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function Shop_All(){
     const { addCart } = UserAuth(); 
@@ -18,19 +26,37 @@ export default function Shop_All(){
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
+
     useEffect(()=>{
         const fetchData = async () => {
+            // get product data from database 
             const querySnapshot = await getDocs(collection(db, "products"));
             const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             
-            setData(productsData);
+            setData(productsData); // import all database information into array 
 
+            // fetch images from cloud storage 
             const storage = getStorage();
             const imageDb = ref(storage, "products"); 
 
+            // display images 
             listAll(imageDb)
                 .then(imgs => {
-                    const promises = imgs.items.map(item => getDownloadURL(item));
+                    // display image if URL found in product document 
+                    const promises = imgs.items.map(item => getDownloadURL(item)); 
                     Promise.all(promises)
                         .then(urls => {
                             setImgURL(urls);
@@ -56,6 +82,8 @@ export default function Shop_All(){
         // add to local cart if no user
         else{
         }
+
+        handleClick(); // display alert 
     }
 
     return(
@@ -75,9 +103,22 @@ export default function Shop_All(){
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
                             <p className="description">{product.description}</p>
+
                             <IconButton type="submit" onClick={()=>handleAddCart(product.id)} color="primary" aria-label="add to shopping cart"> 
-                                <AddShoppingCartIcon />
+                                <AddShoppingCartIcon/>
                             </IconButton>
+
+                            <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
+                                <Alert
+                                onClose={handleClose}
+                                severity="success"
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                                >
+                                Added to cart!
+                                </Alert>
+                            </Snackbar>
+
                         </div>
                     ))}
     

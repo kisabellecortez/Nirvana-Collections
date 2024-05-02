@@ -9,11 +9,30 @@ import { db } from '../../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
+import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 export default function Shop_PhoneCharms(){
     const { addCart } = UserAuth(); 
     
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -55,6 +74,8 @@ export default function Shop_PhoneCharms(){
         // add to local cart if no user
         else{
         }
+
+        handleClick();
     }
 
     return(
@@ -74,6 +95,22 @@ export default function Shop_PhoneCharms(){
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
                             <p className="description">{product.description}</p>
+
+                            <IconButton type="submit" onClick={()=>handleAddCart(product.id)} color="primary" aria-label="add to shopping cart"> 
+                                <AddShoppingCartIcon />
+                            </IconButton>
+
+                            <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
+                                <Alert
+                                onClose={handleClose}
+                                severity="success"
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                                >
+                                Added to cart!
+                                </Alert>
+                            </Snackbar>
+
                         </div>
                     ))}
     
