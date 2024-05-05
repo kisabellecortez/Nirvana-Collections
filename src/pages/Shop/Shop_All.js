@@ -23,10 +23,11 @@ import Alert from '@mui/material/Alert';
 
 /* product class for storing carted items (users not signed in) */
 class Product{
-    constructor(id, price){
+    constructor(id, price, image){
         this.id = id; 
         this.price = price; 
         this.quantity = 1; 
+        this.image = image; 
     }
 }   
 
@@ -135,7 +136,7 @@ export default function Shop_All(){
                             <p className="price">${product.price}</p>
 
                             <div className="prod-icons">
-                                <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.price)} color="primary" aria-label="add to shopping cart"> 
+                                <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.price, product.image)} color="primary" aria-label="add to shopping cart"> 
                                     <AddShoppingCartIcon/>
                                 </IconButton>
                             </div>

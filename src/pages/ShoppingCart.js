@@ -23,6 +23,7 @@ export default function ShoppingCart(){
     useEffect(() => {
         const fetchData = async() => {
             const auth = getAuth(); 
+            const storage = getStorage();
             
             onAuthStateChanged(auth, async (currUser) => {
                 // fetch current user 
@@ -36,25 +37,34 @@ export default function ShoppingCart(){
                     const cartData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     
                     setData(cartData); // set an array of cart items 
-                    console.log(data); 
-    
-                    // fetch product images from cloud storage 
-                    const storage = getStorage(); 
-                    const imageDb = ref(storage, "products"); 
-    
-                    listAll(imageDb)
-                        .then(imgs => {
-                            const promises = imgs.items.map(item => getDownloadURL(item));
-                            Promise.all(promises)
-                                .then(urls => {
-                                    setImgURL(urls);
-                                })
-                                .catch(error => console.error(error));
+                    console.log(data);         
+
+                    // fetch images for database
+                    const promises = cartData.map(product => {
+                        const gsRef = ref(storage, 'gs://nirvana-collections-backend.appspot.com/products/' + product.id)
+                        return getDownloadURL(gsRef)
+                    })
+
+                    Promise.all(promises)
+                        .then(urls => {
+                            setImgURL(urls)
                         })
-                        .catch(error => (error));
+                        .catch(error => console.error(error))
                 }
                 else{
                     console.log(localCart); 
+
+                    // fetch images fort cart 
+                    const promises = localCart.map(product => {
+                        const gsRef = ref(storage, 'gs://nirvana-collections-backend.appspot.com/products/' + product.id)
+                        return getDownloadURL(gsRef)
+                    })
+
+                    Promise.all(promises)
+                        .then(urls => {
+                            setImgURL(urls)
+                        })
+                        .catch(error => console.error(error))
                 }
             })
         };
@@ -68,7 +78,7 @@ export default function ShoppingCart(){
         // add up prices 
         // fetch prices from user database
         if(user){
-            data.forEach((product, index) => {
+            data.forEach(product => {
                 totalPrice += product.price * product.quantity; 
             })
         }
@@ -105,9 +115,19 @@ export default function ShoppingCart(){
                         </div>
                     ))
                 ) : (
-                    <div className="cartCard">
-                        
-                    </div>
+                    localCart.map((product, index) => (
+                        <div key={product.id} className="cartCard">
+                            {imgURL[index] ? (
+                                <img src={imgURL[index]} alt="Product" />
+                            ) : (
+                                <p>No image of product...</p>
+                            )}
+
+                            <h4 className="prodName">{product.name}</h4>
+                            <h4 className="prodAmt">x{product.quantity}</h4>
+                            <h4 classname="prodPrice">${product.price}</h4>
+                        </div>
+                    ))
                 )}
             </div>
 
