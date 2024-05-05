@@ -2,6 +2,7 @@
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
+import { getCart, modifyItem, modifyCart } from '../../data/cart.js'
 
 /* React */
 import *  as React from 'react'
@@ -20,13 +21,24 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
+/* product class for storing carted items (users not signed in) */
+class Product{
+    constructor(id, price){
+        this.id = id; 
+        this.price = price; 
+        this.quantity = 1; 
+    }
+}   
+
 export default function Shop_All(){
+    const currCart = getCart(); 
+
     const { addCart } = UserAuth(); 
 
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false); 
 
     const handleClick = () => {
         setOpen(true);
@@ -70,7 +82,7 @@ export default function Shop_All(){
     }, []);
 
     /* add product to cart */
-    const handleAddCart = async(id)=>{
+    const handleAddCart = async(id, price)=>{
         // get user 
         const auth = getAuth(); 
         const user = auth.currentUser; 
@@ -81,6 +93,25 @@ export default function Shop_All(){
         }
         // add to local cart if no user
         else{
+            let duplicate = false; 
+
+            // check for duplicate items 
+            for(let i = 0; i < currCart.length; i++){
+                // add amount to item if there is duplicate
+                if(currCart[i].id === id){
+                    duplicate = true; 
+                    modifyItem(i); 
+                    break;  
+                }
+            }
+
+            // add item if new to cart 
+            if(!duplicate){
+                currCart.push(new Product(id, price)); 
+                modifyCart(currCart);
+            }
+            
+            console.log(getCart()); // display cart
         }
 
         handleClick(); // display alert 
@@ -102,11 +133,12 @@ export default function Shop_All(){
 
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
-                            <p className="description">{product.description}</p>
 
-                            <IconButton type="submit" onClick={()=>handleAddCart(product.id)} color="primary" aria-label="add to shopping cart"> 
-                                <AddShoppingCartIcon/>
-                            </IconButton>
+                            <div className="prod-icons">
+                                <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.price)} color="primary" aria-label="add to shopping cart"> 
+                                    <AddShoppingCartIcon/>
+                                </IconButton>
+                            </div>
 
                             <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
                                 <Alert

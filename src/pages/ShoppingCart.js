@@ -1,6 +1,7 @@
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
+import { getCart } from '../data/cart.js'
 
 /* React */
 import React, { useState, useEffect } from 'react'
@@ -12,24 +13,32 @@ import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
 export default function ShoppingCart(){
+    const [user, setUser] = useState(null);
     const [data, setData] = useState([]);
     const [imgURL, setImgURL] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+
+    const localCart = getCart(); 
 
     useEffect(() => {
         const fetchData = async() => {
             const auth = getAuth(); 
             
-            onAuthStateChanged(auth, async (user) => {
-                console.log(user); 
+            onAuthStateChanged(auth, async (currUser) => {
+                // fetch current user 
+                console.log(currUser); 
+                setUser(currUser);
 
                 // display data from user cart database
-                if(user){
-                    const querySnapshot = await getDocs(collection(db, "users", user.uid, "cart"));
+                if(currUser){
+                    // fetch user cart database 
+                    const querySnapshot = await getDocs(collection(db, "users", currUser.uid, "cart"));
                     const cartData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    setData(cartData); // set an array of cart items 
+                    console.log(data); 
     
-                    setData(cartData);
-    
+                    // fetch product images from cloud storage 
                     const storage = getStorage(); 
                     const imageDb = ref(storage, "products"); 
     
@@ -44,9 +53,8 @@ export default function ShoppingCart(){
                         })
                         .catch(error => (error));
                 }
-                // display data from temporary array 
                 else{
-
+                    console.log(localCart); 
                 }
             })
         };
@@ -56,11 +64,23 @@ export default function ShoppingCart(){
 
     useEffect(() => {
         let totalPrice = 0; 
-        data.forEach((product, index) => {
-            totalPrice += product.price * product.quantity; 
-        })
+
+        // add up prices 
+        // fetch prices from user database
+        if(user){
+            data.forEach((product, index) => {
+                totalPrice += product.price * product.quantity; 
+            })
+        }
+        // fetch prices from local cart 
+        else{
+            for(let i = 0; i < localCart.length; i++){
+                totalPrice += localCart[i].price * localCart[i].quantity; 
+            }
+        }
 
         setTotalPrice(totalPrice); 
+        
     }, [data, imgURL])
 
     return(
@@ -71,7 +91,8 @@ export default function ShoppingCart(){
             <p>shopping cart</p>
 
             <div className = "cart">
-                    {data.map((product, index)=>(
+                {user ? (
+                    data.map((product, index)=>(
                         <div key={product.id} className="cartCard">
                         {imgURL[index] ? (
                             <img src={imgURL[index]} alt="Product" />
@@ -82,7 +103,12 @@ export default function ShoppingCart(){
                             <h4 className="prodAmt">x{product.quantity}</h4>
                             <h4 className="prodPrice">${product.price}</h4>
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <div className="cartCard">
+                        
+                    </div>
+                )}
             </div>
 
             <hr></hr>

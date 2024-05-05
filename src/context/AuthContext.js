@@ -58,7 +58,6 @@ export const AuthContextProvider = ({ children })=> {
             const prodData = prodSnapshot.data();
             const prodPrice = prodData.price;
             const prodName = prodData.name; 
-            console.log("Product price:", prodPrice);
 
             // reference the user's cart collection in Firestore
             const cartCollectionRef = collection(db, "users", user.uid, "cart");
