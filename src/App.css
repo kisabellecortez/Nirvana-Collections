@@ -49,6 +49,12 @@ body{
   display: inline-block; 
 }
 
+.alert{
+  position: fixed; 
+  bottom: 2.5vh; 
+  left: 2.5vh; 
+}
+
 .pcard-section h1{
   text-align: center;
   color:#7030a0; 
@@ -91,11 +97,6 @@ body{
 
 .pcard:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.prod-icons{
-  width: auto; 
-  margin-top: 22.5%; 
 }
 
 .prod-icons .cart{

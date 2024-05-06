@@ -17,12 +17,9 @@ import { getAuth } from 'firebase/auth'
 import {
     Alert,
     AlertIcon,
-    AlertTitle,
-    AlertDescription,
-  } from '@chakra-ui/react'
+} from '@chakra-ui/react'
 
-  import { AddIcon, MinusIcon } from '@chakra-ui/icons'
-import { LocalCarWashTwoTone } from '@mui/icons-material'
+import { AddIcon, MinusIcon } from '@chakra-ui/icons'
 
 /* product class for storing carted items (users not signed in) */
 class Product{
@@ -43,20 +40,28 @@ export default function Shop_All(){
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
-    // add cart alert functions
-    const [open, setOpen] = React.useState(false); 
+   const [showAlertAdd, setShowAlertAdd] = useState(false);
+   const [showAlertRemove, setShowAlertRemove] = useState(false);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
+   const showAdd = () => {
+    setShowAlertAdd(true)
+    console.log('alert')
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-        return;
-        }
+    setTimeout(() => {
+        setShowAlertAdd(false)
+        console.log('done')
+    }, 2000)
+   }
 
-        setOpen(false);
-    };
+   const showRemove = () => {
+    setShowAlertRemove(true)
+    console.log('alert')
+
+    setTimeout(() => {
+        setShowAlertRemove(false)
+        console.log('done')
+    }, 2000)
+   }
 
     // fetch database products function
     useEffect(()=>{
@@ -121,7 +126,7 @@ export default function Shop_All(){
             console.log(getCart()); // display cart
         }
 
-        handleClick(); // display alert 
+        showAdd(); // display alert 
     }
 
     const handleDelCart = async(id) =>{
@@ -136,11 +141,13 @@ export default function Shop_All(){
             for(let i = 0; i < currCart.length; i++){
                 // remove amount from item if there is duplicate 
                 if(currCart[i].id === id){
-                    addItem(i);
+                    removeItem(i);
                     break; 
                 }
             }
         }
+
+        showRemove(); 
     }
 
     return(
@@ -163,16 +170,28 @@ export default function Shop_All(){
                                 <MinusIcon type="submit" onClick={() => handleDelCart(product.id)}></MinusIcon>
                                 <AddIcon type="submit" onClick={() => handleAddCart(product.id, product.name, product.price)}></AddIcon>
                             </div>
-
-                            <Alert status='success'>
-                                <AlertIcon />
-                                Added to cart!
-                            </Alert>
-
                         </div>
                     ))}
     
                 </div>
+                
+                {showAlertAdd && (
+                    <div className="alert">
+                        <Alert status='success'>
+                            <AlertIcon />
+                            Added to cart!
+                        </Alert>
+                    </div>
+                )}
+    
+                {showAlertRemove && (
+                    <div className="alert">
+                        <Alert status='success'>
+                            <AlertIcon />
+                            Removed from cart!
+                        </Alert>
+                    </div> 
+                )}
 
             <EndBanner/>
         </div>

@@ -1,7 +1,7 @@
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
-import { getCart, modifyItem, modifyCart } from '../../data/cart.js'
+import { getCart, addItem, removeItem, modifyCart } from '../../data/cart.js'
 import React, { useState, useEffect } from 'react'
 
 import { UserAuth } from '../../context/AuthContext.js'
@@ -10,10 +10,12 @@ import { db } from '../../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
-import IconButton from '@mui/material/IconButton';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import {
+    Alert,
+    AlertIcon,
+} from '@chakra-ui/react'
+
+import { AddIcon, MinusIcon } from '@chakra-ui/icons'
 
 /* product class for storing carted items (users not signed in) */
 class Product{
@@ -28,24 +30,33 @@ class Product{
 export default function Shop_Bracelets(){
     const currCart = getCart(); 
 
-    const { addCart } = UserAuth(); 
+    const { addCart, removeCart } = UserAuth(); 
     
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
-    const [open, setOpen] = React.useState(false);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-        return;
-        }
-
-        setOpen(false);
-    };
+    const [showAlertAdd, setShowAlertAdd] = useState(false);
+    const [showAlertRemove, setShowAlertRemove] = useState(false);
+ 
+    const showAdd = () => {
+     setShowAlertAdd(true)
+     console.log('alert')
+ 
+     setTimeout(() => {
+         setShowAlertAdd(false)
+         console.log('done')
+     }, 2000)
+    }
+ 
+    const showRemove = () => {
+     setShowAlertRemove(true)
+     console.log('alert')
+ 
+     setTimeout(() => {
+         setShowAlertRemove(false)
+         console.log('done')
+     }, 2000)
+    }
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -93,7 +104,7 @@ export default function Shop_Bracelets(){
                 // add amount to item if there is duplicate
                 if(currCart[i].id === id){
                     duplicate = true; 
-                    modifyItem(i); 
+                    addItem(i); 
                     break;  
                 }
             }
@@ -107,7 +118,28 @@ export default function Shop_Bracelets(){
             console.log(getCart()); // display cart
         }
 
-        handleClick();
+        showAdd(); // display alert 
+    }
+
+    const handleDelCart = async(id) =>{
+        const auth = getAuth(); 
+        const user = auth.currentUser; 
+
+        if(user){
+            await removeCart(id); 
+        }
+        else{
+            // check if item is in cart
+            for(let i = 0; i < currCart.length; i++){
+                // remove amount from item if there is duplicate 
+                if(currCart[i].id === id){
+                    removeItem(i);
+                    break; 
+                }
+            }
+        }
+
+        showRemove(); 
     }
 
     return(
@@ -127,27 +159,33 @@ export default function Shop_Bracelets(){
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
 
-                            <div className="prod-icons">
-                                <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.name, product.price)} color="primary" aria-label="add to shopping cart"> 
-                                    <AddShoppingCartIcon/>
-                                </IconButton>
+                            <div className="cart-icons">
+                                <MinusIcon type="submit" onClick={() => handleDelCart(product.id)}></MinusIcon>
+                                <AddIcon type="submit" onClick={() => handleAddCart(product.id, product.name, product.price)}></AddIcon>
                             </div>
-
-                            <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
-                                <Alert
-                                onClose={handleClose}
-                                severity="success"
-                                variant="filled"
-                                sx={{ width: '100%' }}
-                                >
-                                Added to cart!
-                                </Alert>
-                            </Snackbar>
 
                         </div>
                     ))}
     
                 </div>
+
+                {showAlertAdd && (
+                    <div className="alert">
+                        <Alert status='success'>
+                            <AlertIcon />
+                            Added to cart!
+                        </Alert>
+                    </div>
+                )}
+    
+                {showAlertRemove && (
+                    <div className="alert">
+                        <Alert status='success'>
+                            <AlertIcon />
+                            Removed from cart!
+                        </Alert>
+                    </div> 
+                )}
 
             <EndBanner/>
         </div>
