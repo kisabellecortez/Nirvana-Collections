@@ -5,8 +5,7 @@ import EndBanner from '../../components/EndBanner.js'
 import { getCart, modifyItem, modifyCart } from '../../data/cart.js'
 
 /* React */
-import *  as React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 /* Firebase */
 import { UserAuth } from '../../context/AuthContext.js'
@@ -15,30 +14,35 @@ import { collection, getDocs } from 'firebase/firestore'
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
 
-/* Material UI */
-import IconButton from '@mui/material/IconButton';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+  } from '@chakra-ui/react'
+
+  import { AddIcon, MinusIcon } from '@chakra-ui/icons'
 
 /* product class for storing carted items (users not signed in) */
 class Product{
-    constructor(id, price, image){
+    constructor(id, name, price){
         this.id = id; 
+        this.name = name
         this.price = price; 
         this.quantity = 1; 
-        this.image = image; 
     }
-}   
+} 
 
 export default function Shop_All(){
+    // cart 
     const currCart = getCart(); 
-
     const { addCart } = UserAuth(); 
 
+    // product database arrays 
     const [data, setData] = useState([]); 
     const [imgURL, setImgURL] = useState([]); 
 
+    // add cart alert functions
     const [open, setOpen] = React.useState(false); 
 
     const handleClick = () => {
@@ -53,6 +57,7 @@ export default function Shop_All(){
         setOpen(false);
     };
 
+    // fetch database products function
     useEffect(()=>{
         const fetchData = async () => {
             // get product data from database 
@@ -83,7 +88,7 @@ export default function Shop_All(){
     }, []);
 
     /* add product to cart */
-    const handleAddCart = async(id, price)=>{
+    const handleAddCart = async(id, name, price)=>{
         // get user 
         const auth = getAuth(); 
         const user = auth.currentUser; 
@@ -108,7 +113,7 @@ export default function Shop_All(){
 
             // add item if new to cart 
             if(!duplicate){
-                currCart.push(new Product(id, price)); 
+                currCart.push(new Product(id, name, price)); 
                 modifyCart(currCart);
             }
             
@@ -116,6 +121,21 @@ export default function Shop_All(){
         }
 
         handleClick(); // display alert 
+    }
+
+    const handleDelCart = async() =>{
+        const auth = getAuth(); 
+        const user = auth.currentUser; 
+
+        if(user){
+
+        }
+        else{
+            let found = false; 
+
+            // check if item is in cart
+            for(let i = 0; i <)
+        }
     }
 
     return(
@@ -136,21 +156,20 @@ export default function Shop_All(){
                             <p className="price">${product.price}</p>
 
                             <div className="prod-icons">
-                                <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.price, product.image)} color="primary" aria-label="add to shopping cart"> 
+                                {/* <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.name, product.price)} color="primary" aria-label="add to shopping cart"> 
                                     <AddShoppingCartIcon/>
-                                </IconButton>
+                                </IconButton> */}
+
+                                <div className="cart">
+                                    <MinusIcon type="submit" onClick={() => handleDelCart()}></MinusIcon>
+                                    <AddIcon type="submit" onClick={() => handleAddCart(product.id, product.name, product.price)}></AddIcon>
+                                </div>
                             </div>
 
-                            <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
-                                <Alert
-                                onClose={handleClose}
-                                severity="success"
-                                variant="filled"
-                                sx={{ width: '100%' }}
-                                >
-                                Added to cart!
-                                </Alert>
-                            </Snackbar>
+                            <Alert status='success'>
+                                <AlertIcon />
+                                Data uploaded to the server. Fire on!
+                            </Alert>
 
                         </div>
                     ))}

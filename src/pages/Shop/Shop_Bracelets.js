@@ -1,6 +1,7 @@
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
+import { getCart, modifyItem, modifyCart } from '../../data/cart.js'
 import React, { useState, useEffect } from 'react'
 
 import { UserAuth } from '../../context/AuthContext.js'
@@ -14,7 +15,19 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
+/* product class for storing carted items (users not signed in) */
+class Product{
+    constructor(id, name, price){
+        this.id = id; 
+        this.name = name
+        this.price = price; 
+        this.quantity = 1; 
+    }
+} 
+
 export default function Shop_Bracelets(){
+    const currCart = getCart(); 
+
     const { addCart } = UserAuth(); 
     
     const [data, setData] = useState([]); 
@@ -44,7 +57,7 @@ export default function Shop_Bracelets(){
             setData(productsData);
 
             const storage = getStorage();
-            const imageDb = ref(storage, "products"); // Adjust this path according to your Firebase Storage structure
+            const imageDb = ref(storage, "products"); 
 
             listAll(imageDb)
                 .then(imgs => {
@@ -62,7 +75,7 @@ export default function Shop_Bracelets(){
     }, []);
 
     /* add product to cart */
-    const handleAddCart = async(id)=>{
+    const handleAddCart = async(id, name, price)=>{
         // get user 
         const auth = getAuth(); 
         const user = auth.currentUser; 
@@ -73,6 +86,25 @@ export default function Shop_Bracelets(){
         }
         // add to local cart if no user
         else{
+            let duplicate = false; 
+
+            // check for duplicate items 
+            for(let i = 0; i < currCart.length; i++){
+                // add amount to item if there is duplicate
+                if(currCart[i].id === id){
+                    duplicate = true; 
+                    modifyItem(i); 
+                    break;  
+                }
+            }
+
+            // add item if new to cart 
+            if(!duplicate){
+                currCart.push(new Product(id, name, price)); 
+                modifyCart(currCart);
+            }
+            
+            console.log(getCart()); // display cart
         }
 
         handleClick();
@@ -94,11 +126,12 @@ export default function Shop_Bracelets(){
 
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
-                            <p className="description">{product.description}</p>
 
-                            <IconButton type="submit" onClick={()=>handleAddCart(product.id)} color="primary" aria-label="add to shopping cart"> 
-                                <AddShoppingCartIcon />
-                            </IconButton>
+                            <div className="prod-icons">
+                                <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.name, product.price)} color="primary" aria-label="add to shopping cart"> 
+                                    <AddShoppingCartIcon/>
+                                </IconButton>
+                            </div>
 
                             <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
                                 <Alert

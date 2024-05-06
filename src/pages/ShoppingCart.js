@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react'
 import { db } from '../firebase.js'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { collection, getDocs } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 
 export default function ShoppingCart(){
     const [user, setUser] = useState(null);
@@ -104,14 +104,14 @@ export default function ShoppingCart(){
                 {user ? (
                     data.map((product, index)=>(
                         <div key={product.id} className="cartCard">
-                        {imgURL[index] ? (
-                            <img src={imgURL[index]} alt="Product" />
-                        ) : (
-                            <p>No image of product...</p>
-                        )}
-                            <h4 className="prodName">{product.name}</h4>
-                            <h4 className="prodAmt">x{product.quantity}</h4>
-                            <h4 className="prodPrice">${product.price}</h4>
+                            {imgURL[index] ? (
+                                <img src={imgURL[index]} alt="Product" />
+                            ) : (
+                                <p>No image of product...</p>
+                            )}
+                                <h4 className="prodName">{product.name}</h4>
+                                <h4 className="prodAmt">x{product.quantity}</h4>
+                                <h4 className="prodPrice">${product.price}</h4>
                         </div>
                     ))
                 ) : (
@@ -122,10 +122,9 @@ export default function ShoppingCart(){
                             ) : (
                                 <p>No image of product...</p>
                             )}
-
-                            <h4 className="prodName">{product.name}</h4>
-                            <h4 className="prodAmt">x{product.quantity}</h4>
-                            <h4 classname="prodPrice">${product.price}</h4>
+                                <h4 className="prodName">{product.name}</h4>
+                                <h4 className="prodAmt">x{product.quantity}</h4>
+                                <h4 className="prodPrice">${product.price}</h4>
                         </div>
                     ))
                 )}

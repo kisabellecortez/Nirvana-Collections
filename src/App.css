@@ -203,27 +203,43 @@ body{
 
 /* SignIn and SignOut */
 .sign-in{
+  position: relative; 
   height: 100vh; 
   width: 100%;
   background-color: #e5c0fc; 
+  padding-top: 10vh; 
 }
 
-.sign-in h1{
+.sign-in-card h1, p, label{
+  color: #fff; 
   text-align: center;
-  margin-bottom: 5vh; 
-  color: #7030a0;
+}
+
+.sign-in-card h1{
+  margin-bottom: 2vh; 
+  font-size: 5vh; 
+}
+
+.sign-in-card p{
+  margin-top: 8vh; 
+}
+
+.sign-in-card a{
+  color: #e5c0fc; 
+  text-decoration: underline; 
 }
 
 .sign-in .sign-in-card{
   width: 60vh; 
   height: 80vh; 
-  background-color: red; 
+  background-color: #7030a0; 
   border-radius: 20px; 
   margin: auto; 
+  padding-top: 2vh;
 }
 
-label{
-  color: #7030a0;
+.sign-in .form .inputs{
+  margin-left: 5vh; 
 }
 
 /* Admin */
