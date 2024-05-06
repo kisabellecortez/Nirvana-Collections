@@ -2,7 +2,7 @@
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
-import { getCart, modifyItem, modifyCart } from '../../data/cart.js'
+import { getCart, addItem, removeItem, modifyCart } from '../../data/cart.js'
 
 /* React */
 import React, { useState, useEffect } from 'react'
@@ -22,6 +22,7 @@ import {
   } from '@chakra-ui/react'
 
   import { AddIcon, MinusIcon } from '@chakra-ui/icons'
+import { LocalCarWashTwoTone } from '@mui/icons-material'
 
 /* product class for storing carted items (users not signed in) */
 class Product{
@@ -36,7 +37,7 @@ class Product{
 export default function Shop_All(){
     // cart 
     const currCart = getCart(); 
-    const { addCart } = UserAuth(); 
+    const { addCart, removeCart } = UserAuth(); 
 
     // product database arrays 
     const [data, setData] = useState([]); 
@@ -106,7 +107,7 @@ export default function Shop_All(){
                 // add amount to item if there is duplicate
                 if(currCart[i].id === id){
                     duplicate = true; 
-                    modifyItem(i); 
+                    addItem(i); 
                     break;  
                 }
             }
@@ -123,18 +124,22 @@ export default function Shop_All(){
         handleClick(); // display alert 
     }
 
-    const handleDelCart = async() =>{
+    const handleDelCart = async(id) =>{
         const auth = getAuth(); 
         const user = auth.currentUser; 
 
         if(user){
-
+            await removeCart(id); 
         }
         else{
-            let found = false; 
-
             // check if item is in cart
-            for(let i = 0; i <)
+            for(let i = 0; i < currCart.length; i++){
+                // remove amount from item if there is duplicate 
+                if(currCart[i].id === id){
+                    addItem(i);
+                    break; 
+                }
+            }
         }
     }
 
@@ -151,24 +156,17 @@ export default function Shop_All(){
                         ) : (
                             <p>No image of product...</p>
                         )}
-
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
 
-                            <div className="prod-icons">
-                                {/* <IconButton className="cart" type="submit" onClick={()=>handleAddCart(product.id, product.name, product.price)} color="primary" aria-label="add to shopping cart"> 
-                                    <AddShoppingCartIcon/>
-                                </IconButton> */}
-
-                                <div className="cart">
-                                    <MinusIcon type="submit" onClick={() => handleDelCart()}></MinusIcon>
-                                    <AddIcon type="submit" onClick={() => handleAddCart(product.id, product.name, product.price)}></AddIcon>
-                                </div>
+                            <div className="cart-icons">
+                                <MinusIcon type="submit" onClick={() => handleDelCart(product.id)}></MinusIcon>
+                                <AddIcon type="submit" onClick={() => handleAddCart(product.id, product.name, product.price)}></AddIcon>
                             </div>
 
                             <Alert status='success'>
                                 <AlertIcon />
-                                Data uploaded to the server. Fire on!
+                                Added to cart!
                             </Alert>
 
                         </div>

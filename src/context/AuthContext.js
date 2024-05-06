@@ -88,6 +88,42 @@ export const AuthContextProvider = ({ children })=> {
         }
     }
 
+    /* add to cart */
+    const removeCart = async(id)=>{
+        try{    
+            // get user 
+            const auth = getAuth(); 
+            const user = auth.currentUser;
+
+            // reference the user's cart collection in Firestore
+            const cartCollectionRef = collection(db, "users", user.uid, "cart");
+
+            // reference the specific document (product) in the cart collection
+            const cartProductRef = doc(cartCollectionRef, id);
+
+            // check if the product already exists in the cart
+            const cartSnapshot = await getDoc(cartProductRef);
+
+            if (cartSnapshot.exists()) {
+                // if the product exists, increment its quantity
+                const existingQuantity = cartSnapshot.data().quantity;
+                const updatedQuantity = existingQuantity - 1;
+
+                // check if product should be in the cart 
+                if(updatedQuantity === 0){
+                    await deleteDoc(cartProductRef) // delete product 
+                }
+                else{
+                    await updateDoc(cartProductRef, { quantity: updatedQuantity }); // update quantity
+                }
+            }
+        }
+        catch(error){
+            alert('Product was unable to be removed from cart.');
+            console.log(error); 
+        }
+    }
+
     /* add product in database */
     const addProduct = async(name, price, description, stock, type, material, stone)=>{
         var id = getId(name); 
@@ -156,7 +192,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addCart, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
+        <AuthContext.Provider value = {{ addCart, removeCart, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
             { children }
         </AuthContext.Provider>
     );

@@ -4,8 +4,13 @@ let cartArray = JSON.parse(localStorage.getItem('cart')) || []; // create array 
 export const getCart =()=> cartArray; 
 
 /* add another of an already carted item */
-export const modifyItem =(index)=>{
+export const addItem =(index)=>{
     cartArray[index].quantity += 1; 
+    saveCart(); 
+}
+
+export const removeItem = (index) => {
+    cartArray[index].quantity -= 1; 
     saveCart(); 
 }
 
