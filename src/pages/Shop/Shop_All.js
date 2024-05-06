@@ -32,8 +32,6 @@ class Product{
 } 
 
 export default function Shop_All(){
-    // cart 
-    const currCart = getCart(); 
     const { addCart, removeCart } = UserAuth(); 
 
     // product database arrays 
@@ -106,7 +104,8 @@ export default function Shop_All(){
         }
         // add to local cart if no user
         else{
-
+            addItem(id); 
+            console.log(getCart())
         }
 
         showAdd(); // display alert 
@@ -117,34 +116,14 @@ export default function Shop_All(){
         const user = auth.currentUser; 
 
         if(user){
-            await removeCart(id); 
+            await removeCart(id);
         }
         else{
-    
+            removeItem(id); 
+            console.log(getCart())
         }
 
         showRemove(); 
-    }
-
-    // get quantity of the product in cart 
-    const fetchQuantity = async(id, index) => {
-        const auth = getAuth(); 
-        const user = auth.currentUser; 
-
-        if(user){
-            for(let i = 0; i < data.length; i++){
-                if(data[i].id === id){
-                    setQuantity[index] = data[i].quantity; 
-                }
-            }
-        }
-        else{
-            for(let i = 0; i < currCart.length; i++){
-                if(currCart[i].id === id){
-                    setQuantity[index] = currCart[i].quantity; 
-                }
-            }
-        }
     }
 
     return(

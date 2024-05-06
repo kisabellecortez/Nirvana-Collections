@@ -8,7 +8,6 @@ const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children })=> {
     const [user, setUser] = useState({});
-    const [data, setData] = useState([]); 
 
     const googleSignIn =()=> {
         const provider = new GoogleAuthProvider();
@@ -38,8 +37,6 @@ export const AuthContextProvider = ({ children })=> {
                 // get product data from database 
                 const querySnapshot = await getDocs(collection(db, "products"));
                 const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            
-                setData(productsData); // import all database information into array 
 
                 // reference the user's cart collection in Firestore
                 const cartCollectionRef = collection(db, "users", uid, "cart");
