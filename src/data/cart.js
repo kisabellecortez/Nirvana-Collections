@@ -1,22 +1,45 @@
+class Product{
+    constructor(id, name, description, price, quantity){
+        this.id = id; 
+        this.name = name; 
+        this.description = description; 
+        this.price = price; 
+        this.quantity = quantity; 
+    }
+}
+
 let cartArray = JSON.parse(localStorage.getItem('cart')) || []; // create array in local storage
+
+
 
 /* get items in the cart */
 export const getCart =()=> cartArray; 
 
-/* add another of an already carted item */
-export const addItem =(index)=>{
+/* add item */
+export const addItem =(id)=>{
+    let index = -1; 
+
+    for(let i = 0; i < cartArray.length; i++){
+        if(cartArray[i].id === id){
+            index = i; 
+        }
+    }
+
     cartArray[index].quantity += 1; 
     saveCart(); 
 }
 
-export const removeItem = (index) => {
-    cartArray[index].quantity -= 1; 
-    saveCart(); 
-}
+/* remove item */
+export const removeItem = (id) => {
+    let index = -1; 
 
-/* add a new item into the cart */
-export const modifyCart =(newCart)=>{
-    cartArray = newCart; 
+    for(let i = 0; i < cartArray.length; i++){
+        if(cartArray[i].id === id){
+            index = i; 
+        }
+    }
+
+    cartArray[index].quantity -= 1; 
     saveCart(); 
 }
 

@@ -55,9 +55,15 @@ body{
   left: 2.5vh; 
 }
 
-.pcard-section h1{
-  text-align: center;
+.pcard-section h1, 
+  .pcard h4, 
+  .pcard .price,
+  .pcard .quantity{
   color:#7030a0; 
+}
+
+.card-section h1{
+  text-align: center;
   font-size:5vh;
 }
 
@@ -80,27 +86,35 @@ body{
   height: 45vh;
 }
 
-.pcard h4 {
-  display: inline;
-  float: left;
+.pcard h4, 
+  .pcard .price{
+  display: inline; 
   position: relative;
   margin-top: 5%;
+}
+
+.pcard h4 {
+  float: left;
   width: 50%;
 }
 
 .pcard .price {
-  display: inline;
   float: right;
-  position: relative;
-  margin-top: 5%;
+}
+
+.pcard .cart-icons{
+  margin-top: 12vh; 
+  display: flex; 
+  justify-content: center; 
+}
+
+.pcard .cart-icons .icon{
+  margin: 0 5vh 0 5vh;
+  cursor: pointer; 
 }
 
 .pcard:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.prod-icons .cart{
-  float: right; 
 }
 
 /* cart card */

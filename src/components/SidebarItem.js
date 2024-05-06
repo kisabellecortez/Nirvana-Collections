@@ -6,8 +6,11 @@ import { getAuth } from "firebase/auth";
 
 export default function SidebarItem({item}){
     const [open, setOpen] = useState(false)
-    const { user, logOut } = UserAuth(); 
+    const { logOut } = UserAuth(); 
     const navigate = useNavigate()
+
+    const auth = getAuth(); 
+    const user = auth.currentUser;
 
     //signs out user
     const handleSignOut = async()=>{

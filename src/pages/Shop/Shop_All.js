@@ -2,7 +2,7 @@
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
-import { getCart, addItem, removeItem, modifyCart } from '../../data/cart.js'
+import { getCart, addItem, removeItem } from '../../data/cart.js'
 
 /* React */
 import React, { useState, useEffect } from 'react'
@@ -38,7 +38,8 @@ export default function Shop_All(){
 
     // product database arrays 
     const [data, setData] = useState([]); 
-    const [imgURL, setImgURL] = useState([]); 
+    const [imgURL, setImgURL] = useState([]);
+    const [quantity, setQuantity] = useState([]) 
 
    const [showAlertAdd, setShowAlertAdd] = useState(false);
    const [showAlertRemove, setShowAlertRemove] = useState(false);
@@ -94,7 +95,7 @@ export default function Shop_All(){
     }, []);
 
     /* add product to cart */
-    const handleAddCart = async(id, name, price)=>{
+    const handleAddCart = async(id)=>{
         // get user 
         const auth = getAuth(); 
         const user = auth.currentUser; 
@@ -105,25 +106,7 @@ export default function Shop_All(){
         }
         // add to local cart if no user
         else{
-            let duplicate = false; 
 
-            // check for duplicate items 
-            for(let i = 0; i < currCart.length; i++){
-                // add amount to item if there is duplicate
-                if(currCart[i].id === id){
-                    duplicate = true; 
-                    addItem(i); 
-                    break;  
-                }
-            }
-
-            // add item if new to cart 
-            if(!duplicate){
-                currCart.push(new Product(id, name, price)); 
-                modifyCart(currCart);
-            }
-            
-            console.log(getCart()); // display cart
         }
 
         showAdd(); // display alert 
@@ -137,17 +120,31 @@ export default function Shop_All(){
             await removeCart(id); 
         }
         else{
-            // check if item is in cart
-            for(let i = 0; i < currCart.length; i++){
-                // remove amount from item if there is duplicate 
-                if(currCart[i].id === id){
-                    removeItem(i);
-                    break; 
-                }
-            }
+    
         }
 
         showRemove(); 
+    }
+
+    // get quantity of the product in cart 
+    const fetchQuantity = async(id, index) => {
+        const auth = getAuth(); 
+        const user = auth.currentUser; 
+
+        if(user){
+            for(let i = 0; i < data.length; i++){
+                if(data[i].id === id){
+                    setQuantity[index] = data[i].quantity; 
+                }
+            }
+        }
+        else{
+            for(let i = 0; i < currCart.length; i++){
+                if(currCart[i].id === id){
+                    setQuantity[index] = currCart[i].quantity; 
+                }
+            }
+        }
     }
 
     return(
@@ -167,8 +164,17 @@ export default function Shop_All(){
                             <p className="price">${product.price}</p>
 
                             <div className="cart-icons">
-                                <MinusIcon type="submit" onClick={() => handleDelCart(product.id)}></MinusIcon>
-                                <AddIcon type="submit" onClick={() => handleAddCart(product.id, product.name, product.price)}></AddIcon>
+                                <MinusIcon className="icon" type="submit" 
+                                    onClick={() => handleDelCart(product.id)}></MinusIcon>
+
+                                {quantity[index] !== undefined ? (
+                                    <p className="quantity">{quantity[index]}</p>
+                                ) : (
+                                    <p className="quantity">0</p>
+                                )}
+
+                                <AddIcon className="icon" type="submit" 
+                                    onClick={() => handleAddCart(product.id)}></AddIcon>
                             </div>
                         </div>
                     ))}

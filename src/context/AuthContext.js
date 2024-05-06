@@ -1,13 +1,14 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
 import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore'
+import { doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
 
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children })=> {
     const [user, setUser] = useState({});
+    const [data, setData] = useState([]); 
 
     const googleSignIn =()=> {
         const provider = new GoogleAuthProvider();
@@ -26,13 +27,34 @@ export const AuthContextProvider = ({ children })=> {
         const userAuth = getAuth(); 
 
         // create user database
-        onAuthStateChanged(userAuth, (user)=>{
+        onAuthStateChanged(userAuth, async(user) => {
             if(user){
                 const uid = user.uid; 
                 
-                setDoc(doc(db, 'users', uid), {
+                await setDoc(doc(db, 'users', uid), {
                     
                 });
+
+                // get product data from database 
+                const querySnapshot = await getDocs(collection(db, "products"));
+                const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            
+                setData(productsData); // import all database information into array 
+
+                // reference the user's cart collection in Firestore
+                const cartCollectionRef = collection(db, "users", uid, "cart");
+
+                // add each product to cart 
+                productsData.forEach((product) => {
+                    const cartProductRef = doc(cartCollectionRef, product.id); 
+
+                    setDoc(cartProductRef, {
+                        name: product.name, 
+                        description: product.description, 
+                        price: product.price, 
+                        quantity: 0
+                    })
+                })
             }
         })
     }
@@ -45,83 +67,52 @@ export const AuthContextProvider = ({ children })=> {
         return deleteUser(user)
     }
 
-    /* add to cart */
+    /* add item to cart */
     const addCart = async(id)=>{
-        try{    
-            // get user 
-            const auth = getAuth(); 
-            const user = auth.currentUser; 
+        // get user 
+        const auth = getAuth(); 
+        const user = auth.currentUser; 
 
-            // get product information 
-            const prodRef = doc(db, "products", id);
-            const prodSnapshot = await getDoc(prodRef);
-            const prodData = prodSnapshot.data();
-            const prodPrice = prodData.price;
-            const prodName = prodData.name; 
+        // reference the user's cart collection in Firestore
+        const cartCollectionRef = collection(db, "users", user.uid, "cart");
 
-            // reference the user's cart collection in Firestore
-            const cartCollectionRef = collection(db, "users", user.uid, "cart");
+        // reference the specific document (product) in the cart collection
+        const cartProductRef = doc(cartCollectionRef, id);
 
-            // reference the specific document (product) in the cart collection
-            const cartProductRef = doc(cartCollectionRef, id);
+        // check if the product already exists in the cart
+        const cartSnapshot = await getDoc(cartProductRef);
 
-            // check if the product already exists in the cart
-            const cartSnapshot = await getDoc(cartProductRef);
-
-            if (cartSnapshot.exists()) {
-                // if the product exists, increment its quantity
-                const existingQuantity = cartSnapshot.data().quantity;
-                const updatedQuantity = existingQuantity + 1;
-                await updateDoc(cartProductRef, { quantity: updatedQuantity });
-            } else {
-                // if the product doesn't exist, add it to the cart with quantity 1
-                await setDoc(cartProductRef, { 
-                    quantity: 1,
-                    name: prodName, 
-                    price: prodPrice 
-                });
-            }
-        }
-        catch(error){
-            alert('Product was unable to add to your cart.');
-            console.log(error); 
-        }
+        // if the product exists, increment its quantity
+        const existingQuantity = cartSnapshot.data().quantity;
+        const updatedQuantity = existingQuantity + 1;
+        await updateDoc(cartProductRef, { quantity: updatedQuantity });
     }
 
-    /* add to cart */
+    /* remove item from cart */
     const removeCart = async(id)=>{
-        try{    
-            // get user 
-            const auth = getAuth(); 
-            const user = auth.currentUser;
+        // get user 
+        const auth = getAuth(); 
+        const user = auth.currentUser;
 
-            // reference the user's cart collection in Firestore
-            const cartCollectionRef = collection(db, "users", user.uid, "cart");
+        // reference the user's cart collection in Firestore
+        const cartCollectionRef = collection(db, "users", user.uid, "cart");
 
-            // reference the specific document (product) in the cart collection
-            const cartProductRef = doc(cartCollectionRef, id);
+        // reference the specific document (product) in the cart collection
+        const cartProductRef = doc(cartCollectionRef, id);
 
-            // check if the product already exists in the cart
-            const cartSnapshot = await getDoc(cartProductRef);
+        // check if the product already exists in the cart
+        const cartSnapshot = await getDoc(cartProductRef);
 
-            if (cartSnapshot.exists()) {
-                // if the product exists, increment its quantity
-                const existingQuantity = cartSnapshot.data().quantity;
-                const updatedQuantity = existingQuantity - 1;
+        // if the product exists, increment its quantity
+        const existingQuantity = cartSnapshot.data().quantity;
+        const updatedQuantity = existingQuantity - 1;
 
-                // check if product should be in the cart 
-                if(updatedQuantity === 0){
-                    await deleteDoc(cartProductRef) // delete product 
-                }
-                else{
-                    await updateDoc(cartProductRef, { quantity: updatedQuantity }); // update quantity
-                }
-            }
+        if(updatedQuantity < 0){
+            await updateDoc(cartProductRef, { quantity: 0 }); 
         }
-        catch(error){
-            alert('Product was unable to be removed from cart.');
-            console.log(error); 
-        }
+        else{
+            await updateDoc(cartProductRef, { quantity: updatedQuantity }); // update quantity
+        }       
     }
 
     /* add product in database */
