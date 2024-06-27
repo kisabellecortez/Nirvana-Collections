@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext.js'
 import './App.css';
+import CartProvider from './context/CartContext.js'
 
 import Home from './pages/Home'
 import ShopAll from './pages/Shop/Shop_All'
@@ -25,6 +26,7 @@ function App() {
   return(
     <div>
       <AuthContextProvider>
+        <CartProvider>
         <BrowserRouter>
           <Routes>
             <Route index element={<Home/>}/>
@@ -47,6 +49,7 @@ function App() {
             <Route path="admin" element={<Admin/>}/>
           </Routes>
         </BrowserRouter>
+        </CartProvider>
       </AuthContextProvider>
     </div>
 

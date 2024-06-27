@@ -1,129 +1,93 @@
+/* React */
+import React, { useState } from 'react'
+
 /* components */
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
-import { getCart, addItem, removeItem } from '../../data/cart.js'
+import { productsArray, imagesArray } from '../../data/productData.js'
 
-/* React */
-import React, { useState, useEffect } from 'react'
+import { CartContext } from "../../context/CartContext";
+import { useContext } from "react";
 
 /* Firebase */
 import { UserAuth } from '../../context/AuthContext.js'
-import { db } from '../../firebase.js'
-import { collection, getDocs } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
 
-import {
-    Alert,
-    AlertIcon,
-} from '@chakra-ui/react'
-
-import { AddIcon, MinusIcon } from '@chakra-ui/icons'
-
-/* product class for storing carted items (users not signed in) */
-class Product{
-    constructor(id, name, price){
-        this.id = id; 
-        this.name = name
-        this.price = price; 
-        this.quantity = 1; 
-    }
-} 
+/* Material UI */
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 export default function Shop_All(){
-    const { addCart, removeCart } = UserAuth(); 
+    const { addCart } = UserAuth(); 
+    const cart = useContext(CartContext); 
 
-    // product database arrays 
-    const [data, setData] = useState([]); 
-    const [imgURL, setImgURL] = useState([]);
-    const [quantity, setQuantity] = useState([]) 
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('')
 
-   const [showAlertAdd, setShowAlertAdd] = useState(false);
-   const [showAlertRemove, setShowAlertRemove] = useState(false);
+    const handleClick = (message) => {
+        setOpen(true);
+        setMessage(message)
+      };
+    
+      const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+        setMessage('')
+      };
+    
+    console.log(productsArray)
+    console.log(imagesArray)
+    console.log(cart.items)
 
-   const showAdd = () => {
-    setShowAlertAdd(true)
-    console.log('alert')
-
-    setTimeout(() => {
-        setShowAlertAdd(false)
-        console.log('done')
-    }, 2000)
-   }
-
-   const showRemove = () => {
-    setShowAlertRemove(true)
-    console.log('alert')
-
-    setTimeout(() => {
-        setShowAlertRemove(false)
-        console.log('done')
-    }, 2000)
-   }
-
-    // fetch database products function
-    useEffect(()=>{
-        const fetchData = async () => {
-            // get product data from database 
-            const querySnapshot = await getDocs(collection(db, "products"));
-            const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            
-            setData(productsData); // import all database information into array 
-
-            // fetch images from cloud storage 
-            const storage = getStorage();
-            const imageDb = ref(storage, "products"); 
-
-            // display images 
-            listAll(imageDb)
-                .then(imgs => {
-                    // display image if URL found in product document 
-                    const promises = imgs.items.map(item => getDownloadURL(item)); 
-                    Promise.all(promises)
-                        .then(urls => {
-                            setImgURL(urls);
-                        })
-                        .catch(error => console.error("Error fetching image URLs:", error));
-                })
-                .catch(error => console.error("Error listing images in storage:", error));
-        };
-
-        fetchData();
-    }, []);
+    // get user 
+    const auth = getAuth(); 
+    const user = auth.currentUser; 
 
     /* add product to cart */
     const handleAddCart = async(id)=>{
-        // get user 
-        const auth = getAuth(); 
-        const user = auth.currentUser; 
-
         // add to database cart if user is signed in 
         if(user){
             await addCart(id); 
         }
         // add to local cart if no user
         else{
-            addItem(id); 
-            console.log(getCart())
+            cart.addOneToCart(id); 
+            console.log(cart)
         }
 
-        showAdd(); // display alert 
+        handleClick("Added to Cart!"); // display alert 
     }
 
-    const handleDelCart = async(id) =>{
-        const auth = getAuth(); 
-        const user = auth.currentUser; 
-
+    const handleRemoveCart = async(id) => {
+        //remove from database cart if user is signed in 
         if(user){
-            await removeCart(id);
+
         }
+        // remove from local cart if no user 
         else{
-            removeItem(id); 
-            console.log(getCart())
+            cart.removeOneFromCart(id)
+            console.log(cart)
         }
 
-        showRemove(); 
+        handleClick("Removed from Cart!")
+    }
+
+    /* check if item exists in cart */
+    function checkItem(id){
+        return cart.items.some(item => item.id === id)
+    }
+
+    /* get quantity of item in cart */
+    function getItemQuantity(id){
+        const item = cart.items.find(item => item.id === id); 
+
+        return item  ? item.quantity : 0; 
     }
 
     return(
@@ -132,52 +96,54 @@ export default function Shop_All(){
             <TopNav/>
 
                 <div className = "pcard-section">
-                    {data.map((product, index)=>(
+                    {productsArray.map((product, index)=>(
                         <div key={product.id} className="pcard">
-                        {imgURL[index] ? (
-                            <img src={imgURL[index]} alt="Product" />
+                        {imagesArray[index] ? (
+                            <img src={imagesArray[index]} alt="Product" />
                         ) : (
                             <p>No image of product...</p>
                         )}
                             <h4>{product.name}</h4>
                             <p className="price">${product.price}</p>
 
-                            <div className="cart-icons">
-                                <MinusIcon className="icon" type="submit" 
-                                    onClick={() => handleDelCart(product.id)}></MinusIcon>
-
-                                {quantity[index] !== undefined ? (
-                                    <p className="quantity">{quantity[index]}</p>
-                                ) : (
-                                    <p className="quantity">0</p>
-                                )}
-
-                                <AddIcon className="icon" type="submit" 
-                                    onClick={() => handleAddCart(product.id)}></AddIcon>
-                            </div>
+                            {!checkItem(product.id) ? (
+                                <Button 
+                                variant='contained' 
+                                color='secondary'
+                                type='submit' 
+                                onClick={ () => handleAddCart(product.id) }>
+                                    Add to Cart
+                                </Button>
+                            ) : (
+                                <ButtonGroup variant="contained" color="secondary" aria-label="Basic button group">
+                                    <Button onClick={ () => handleRemoveCart(product.id)}>-</Button>
+                                    <Button>{getItemQuantity(product.id)}</Button>
+                                    <Button onClick={ () => handleAddCart(product.id) }>+</Button>
+                                </ButtonGroup>
+                            )}
+                            
                         </div>
                     ))}
     
                 </div>
                 
-                {showAlertAdd && (
-                    <div className="alert">
-                        <Alert status='success'>
-                            <AlertIcon />
-                            Added to cart!
+                <div className="alert">
+                    <Snackbar
+                        open={open}
+                        autoHideDuration={2500}
+                        onClose={handleClose}
+                    >
+                        <Alert
+                        onClose={handleClose}
+                        severity="success"
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                        >
+                            {message}
                         </Alert>
-                    </div>
-                )}
-    
-                {showAlertRemove && (
-                    <div className="alert">
-                        <Alert status='success'>
-                            <AlertIcon />
-                            Removed from cart!
-                        </Alert>
-                    </div> 
-                )}
-
+                    </Snackbar>
+                </div>
+       
             <EndBanner/>
         </div>
     )
