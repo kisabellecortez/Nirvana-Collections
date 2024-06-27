@@ -80,7 +80,7 @@ export default function Shop_All(){
 
     /* check if item exists in cart */
     function checkItem(id){
-        return cart.items.some(item => item.id === id)
+        return cart.items && cart.items.some(item => item.id === id)
     }
 
     /* get quantity of item in cart */

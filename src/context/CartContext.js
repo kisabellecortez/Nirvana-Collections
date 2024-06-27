@@ -1,9 +1,24 @@
 import { createContext, useState, useEffect } from 'react'
+import { productsArray, getProductData } from '../data/productData.js'
 
 class CartProduct{
     constructor(id){
         this.id = id; 
+        this.name = this.getName(id);
         this.quantity = 1;
+        this.price = this.getPrice(id);
+    }
+
+    getName(id){
+        const product = productsArray.find(product => product.id === id); // find product with id 
+
+        return product ? product.name : 0; 
+    }
+
+    getPrice(id){
+        const product = productsArray.find(product => product.id === id); // find product with id 
+
+        return product ? product.price : 0;
     }
 }
 
@@ -25,16 +40,19 @@ export function CartProvider({children}){
     }, [cartProducts])
 
     function addOneToCart(id){
+        const initialCartProducts = cartProducts || []; // initialize cart products if null
+
         // check if product exists 
-        for(let i = 0; i < cartProducts.length; i++){
-            if(cartProducts[i].id === id){
-                cartProducts[i].quantity += 1; 
-                setCartProducts([ ...cartProducts ])
+        for(let i = 0; i < initialCartProducts.length; i++){
+            if(initialCartProducts[i].id === id){
+                const updatedProducts = [...initialCartProducts];
+                updatedProducts[i].quantity += 1; 
+                setCartProducts(updatedProducts);
                 return; 
             }
         }
 
-        setCartProducts([ ...cartProducts, new CartProduct(id) ]);
+        setCartProducts([...initialCartProducts, new CartProduct(id)]); // add product to cart if it does not exist 
     }
 
     function removeOneFromCart(id) {
@@ -64,7 +82,7 @@ export function CartProvider({children}){
         let total = 0; 
 
         // loop through each item 
-        for(let i = 0; i < cartProducts.length; i++){
+        for(let i = 0; i < cartProducts.length; i++){   
             total += cartProducts[i].quantity * cartProducts[i].price; // find total price of item 
         }
 

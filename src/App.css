@@ -287,3 +287,29 @@ body{
   margin-left: 5vh; 
   margin-top: 5vh; 
 }
+
+/* shopping cart page */
+
+.page .title{
+  padding-top: 10vh; 
+  text-align: center; 
+  color: #7030a0;
+}
+
+.table{
+  width: 80%;
+  margin: auto; 
+  padding-top: 10vh; 
+  margin-bottom: 10vh; 
+}
+
+.page hr{
+  width: 90%; 
+  margin: auto; 
+}
+
+.page .total, .page .checkout{
+  color: #7030a0;
+  margin: 10vh 0 10vh 10%; 
+}
+
