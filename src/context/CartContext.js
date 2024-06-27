@@ -1,5 +1,4 @@
-import { createContext, useState } from 'react'
-import { productsArray, getProductData } from '../data/productData.js'
+import { createContext, useState, useEffect } from 'react'
 
 class CartProduct{
     constructor(id){
@@ -18,13 +17,15 @@ export const CartContext = createContext({
 })
 
 export function CartProvider({children}){
-    const [cartProducts, setCartProducts] = useState([])
+    const [cartProducts, setCartProducts] = useState(JSON.parse(localStorage.getItem('cart'))) // initialize cart products with local storage value 
 
-    function getProductQuantity(id){
-      
-    }
+    /* save array of cart products in local storage each time they are modified */
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartProducts)) 
+    }, [cartProducts])
 
     function addOneToCart(id){
+        // check if product exists 
         for(let i = 0; i < cartProducts.length; i++){
             if(cartProducts[i].id === id){
                 cartProducts[i].quantity += 1; 
@@ -72,7 +73,6 @@ export function CartProvider({children}){
 
     const contextValue = {
         items: cartProducts,
-        getProductQuantity,
         addOneToCart,
         removeOneFromCart,
         getTotalCost
