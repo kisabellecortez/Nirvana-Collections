@@ -3,6 +3,11 @@ import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
 import React, { useState } from 'react'
 
+/* Material UI */
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+
 export default function ContactUs(){
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -29,43 +34,51 @@ export default function ContactUs(){
             <Sidebar/>
             <TopNav/>
 
+            <h1 className='header'>CONTACT US</h1>
+
             <div className="form">
-                <form action="mailto:kisabellecortez@gmail.com" method="post" enctype="text/plain">
-                    <h1>CONTACT US</h1>
-                    <div className="input">
-                        <label for="name">NAME: </label>
-                        <input 
+                <form action="nirvanacollectionsinc@gmail.com" method="post" enctype="text/plain">
+                    <Box
+                    component="form"
+                    sx={{
+                        '& .MuiTextField-root': { m: 2, width: '120ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    >
+                        <TextField
+                        required
+                        id="name"
+                        label="NAME"
                         type="text" 
-                        id="name" 
-                        name="name" 
                         onChange={(e)=>setName(e.target.value)}
-                        required></input>
-                    </div>
-                    
-                    <div classname="input">
-                        <label for="name">EMAIL: </label>
-                        <input 
+                        />
+
+                        <TextField
+                        required
+                        id="email"
+                        label="EMAIL"
                         type="email" 
-                        id="email" 
-                        name="email" 
                         value={email}
                         onChange={(e)=>setEmail(e.target.value)}
-                        required></input>
-                    </div>
-                    
-                    <div className="input">
-                        <label for="name">MESSAGE: </label>
-                        <textarea 
-                        id="message" 
+                        />
+
+                        <TextField
+                        required
+                        id="message"
+                        label="MESSAGE"
+                        multiline
+                        rows={8}
+                        defaultValue="Default Value"
                         name="message" 
                         value={message}
                         onChange={(e)=>setMessage(e.target.value)}
-                        required></textarea>
-                    </div>
-
-                    <button type="submit" onClick={handleSubmit}>SEND</button>
+                        />
+                    </Box>
                 </form>
             </div>
+
+            <Button onClick={handleSubmit} variant="contained" color="secondary" size="large">SEND</Button>
 
             <EndBanner/>
         </div>

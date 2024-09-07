@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
-import { productsArray, getProductData } from '../data/productData.js'
+import { productsArray } from '../data/productData.js'
 
 class CartProduct{
     constructor(id){
@@ -93,6 +93,7 @@ export function CartProvider({children}){
         items: cartProducts,
         addOneToCart,
         removeOneFromCart,
+        deleteFromCart,
         getTotalCost
     }
 

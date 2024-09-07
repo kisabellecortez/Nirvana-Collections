@@ -12,6 +12,8 @@ import ShopAll from './pages/Shop/Shop_All'
 // import ShopAnklets from './pages/Shop/Shop_Anklets'
 // import ShopPhoneCharms from './pages/Shop/Shop_PhoneCharms'
 // import ShopCrystals from './pages/Shop/Shop_Crystals'
+
+import CustomOrders from './pages/Shop/Custom_Orders.js'
 import FAQ from './pages/FAQ'
 import Blog from './pages/Blog'
 import ContactUs from './pages/ContactUs'
@@ -39,6 +41,7 @@ function App() {
             <Route path="shop/anklets" element={<ShopAnklets/>}/>
             <Route path="shop/phone-charms" element={<ShopPhoneCharms/>}/>
             <Route path="shop/crystals" element={<ShopCrystals/>}/> */}
+            <Route path="shop/custom" element={<CustomOrders/>}/>
             <Route path="faq" element={<FAQ/>}/>
             <Route path="blog" element={<Blog/>}/>
             <Route path="contact-us" element={<ContactUs/>}/>

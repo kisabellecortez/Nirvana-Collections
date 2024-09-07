@@ -64,54 +64,6 @@ export const AuthContextProvider = ({ children })=> {
         return deleteUser(user)
     }
 
-    /* add item to cart */
-    const addCart = async(id)=>{
-        // get user 
-        const auth = getAuth(); 
-        const user = auth.currentUser; 
-
-        // reference the user's cart collection in Firestore
-        const cartCollectionRef = collection(db, "users", user.uid, "cart");
-
-        // reference the specific document (product) in the cart collection
-        const cartProductRef = doc(cartCollectionRef, id);
-
-        // check if the product already exists in the cart
-        const cartSnapshot = await getDoc(cartProductRef);
-
-        // if the product exists, increment its quantity
-        const existingQuantity = cartSnapshot.data().quantity;
-        const updatedQuantity = existingQuantity + 1;
-        await updateDoc(cartProductRef, { quantity: updatedQuantity });
-    }
-
-    /* remove item from cart */
-    const removeCart = async(id)=>{
-        // get user 
-        const auth = getAuth(); 
-        const user = auth.currentUser;
-
-        // reference the user's cart collection in Firestore
-        const cartCollectionRef = collection(db, "users", user.uid, "cart");
-
-        // reference the specific document (product) in the cart collection
-        const cartProductRef = doc(cartCollectionRef, id);
-
-        // check if the product already exists in the cart
-        const cartSnapshot = await getDoc(cartProductRef);
-
-        // if the product exists, increment its quantity
-        const existingQuantity = cartSnapshot.data().quantity;
-        const updatedQuantity = existingQuantity - 1;
-
-        if(updatedQuantity < 0){
-            await updateDoc(cartProductRef, { quantity: 0 }); 
-        }
-        else{
-            await updateDoc(cartProductRef, { quantity: updatedQuantity }); // update quantity
-        }       
-    }
-
     /* add product in database */
     const addProduct = async(name, price, description, stock, type, material, stone)=>{
         var id = getId(name); 
@@ -180,7 +132,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addCart, removeCart, addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
+        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
             { children }
         </AuthContext.Provider>
     );

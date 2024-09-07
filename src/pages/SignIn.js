@@ -2,16 +2,10 @@ import React, { useState } from 'react';
 import { UserAuth} from '../context/AuthContext.js'
 import { useNavigate } from 'react-router-dom'
 
-/* chakra */
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input, 
-  Stack, 
-  Button
-} from '@chakra-ui/react'
+/* Material UI */ 
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 const SignIn =()=>{
   const { signIn } = UserAuth(); 
@@ -46,61 +40,40 @@ const SignIn =()=>{
           <h1>Welcome back!</h1>
 
             <div className="form">
-              <Stack spacing={3}>
+              <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 1, width: '35ch' },
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <TextField
+                  required
+                  id="email"
+                  label="EMAIL"
+                  type='email' 
+                  value={email} 
+                  onChange={(e)=>setEmail(e.target.value)}
+                />
 
-                <div className="inputs">
-                  <FormControl isInvalid={isErrorEmail}>
-                    <FormLabel>Email</FormLabel>
-                    <Input 
-                    htmlSize={35}
-                    width='auto' 
-                    type='email' 
-                    id='email'
-                    name='email'
-                    placeholder='johndoe@gmail.com'
-                    value={email} 
-                    onChange={(e)=>setEmail(e.target.value)} />
-                    {!isErrorEmail ? (
-                      <FormHelperText>
-                        Enter your email 
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>Email is required.</FormErrorMessage>
-                    )}
-                  </FormControl>
+                <TextField
+                  required
+                  id="password"
+                  label="PASSWORD"
+                  type='password' 
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
+                />
+              </Box>
 
-                  <FormControl isInvalid={isErrorPass}>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                    htmlSize={35}
-                    width='auto' 
-                    type='password' 
-                    id='password'
-                    name='password'
-                    placeholder='abcd1234'
-                    value={password}
-                    onChange={(e)=>setPassword(e.target.value)} />
-                    {!isErrorPass ? (
-                      <FormHelperText>
-                        Enter your password.
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>Password is required.</FormErrorMessage>
-                    )}
-                  </FormControl>
-                  </div>
-                </Stack>
-
-                <Button 
-                  colorScheme='purple' 
-                  variant='solid' 
-                  type='submit' 
-                  onClick={ handleSignIn }>
-                    Sign In
-                </Button>
+                <Button variant="contained" color="secondary" size="large" onClick={handleSignIn}>SIGN IN</Button>
             </div>
+            
 
             <p>Don't have an account? Sign up <a href="/signup">here.</a></p>
+
+            <p><a className="home-portal" href="/home">Continue as guest?</a></p>
           </div> 
       </div>
     );

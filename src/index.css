@@ -229,3 +229,10 @@ body{
 .socials img{
   width: 5vh; 
 }
+
+/* Shopping Cart */
+
+.delete{
+  height: 2.5vh; 
+  cursor: pointer; 
+}

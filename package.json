@@ -20,6 +20,7 @@
     "jquery": "^3.7.1",
     "mongodb": "6.5",
     "mongoose": "^8.2.3",
+    "public-page": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-button": "^0.7.2",
