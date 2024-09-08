@@ -43,10 +43,32 @@ export default function Shop_All() {
         setMessage('');
     };
 
-    const handleOpenForm = (id) => {
-        setSelectedProductId(id);  // Set the selected product ID
-        setSize(''); // Reset size when opening the form for a new product
-        setOpenForm(true);
+    const handleOpenForm = (id, type) => {
+        console.log("type:" + type)
+        setSelectedProductId(id)
+        setSize(''); // reset size 
+
+        if(type === "earring"){
+
+        }
+        else if(type === "necklace"){
+
+        }
+        else if(type === "bracelet"){
+
+        }
+        else if(type === "ring"){
+            setOpenForm(true); // open form 
+        }
+        else if(type === "anklet"){
+
+        }
+        else if(type === "phone charm"){
+
+        }
+        else{
+            handleAddToCartNS(id)
+        }   
     };
     
 
@@ -63,7 +85,7 @@ export default function Shop_All() {
     
 
     /* add product to cart */
-    const handleAddToCart = async () => {
+    const handleAddToCart = async() => {
         console.log("size:" + size)
         if (selectedProductId && size) {
             cart.addItemToCart(selectedProductId, size);
@@ -74,6 +96,12 @@ export default function Shop_All() {
             handleClick("Please select a size.");
         }
     };
+
+    const handleAddToCartNS = async(id) => {
+        cart.addItemToCart(id, "n/a"); 
+        console.log(cart)
+        handleClick("Added to Cart!")
+    }
 
     useEffect(() => {
         const fetchImages = async () => {
@@ -111,51 +139,51 @@ export default function Shop_All() {
                                     variant="contained"
                                     color="secondary"
                                     size="large"
-                                    onClick={() => handleOpenForm(product.id)} // Pass the product id here
+                                    onClick={() => handleOpenForm(product.id, product.properties)} // Pass the product id here
                                 >
                                     Add to Cart
                                 </Button>
                             </div>
-                            <Dialog disableEscapeKeyDown open={openForm} onClose={handleCloseForm}>
-                                <DialogTitle>Ring Size</DialogTitle>
-                                <DialogContent>
-                                    <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                        <FormControl sx={{ m: 1, minWidth: 120 }}>
-                                            <InputLabel htmlFor="demo-dialog-native">Size</InputLabel>
-                                            <Select
-                                                native
-                                                value={size}
-                                                onChange={handleChange}
-                                                input={<OutlinedInput label="Size" />}
-                                            >
-                                                <option aria-label="None" value="" />
-                                                <option value={3}>3</option>
-                                                <option value={3.5}>3.5</option>
-                                                <option value={4}>4</option>
-                                                <option value={4.5}>4.5</option>
-                                                <option value={5}>5</option>
-                                                <option value={5.5}>5.5</option>
-                                                <option value={6}>6</option>
-                                                <option value={6.5}>6.5</option>
-                                                <option value={7}>7</option>
-                                                <option value={7.5}>7.5</option>
-                                                <option value={8}>8</option>
-                                                <option value={8.5}>8.5</option>
-                                                <option value={9}>9</option>
-                                                <option value={9.5}>9.5</option>
-                                                <option value={10}>10</option>
-                                                <option value={10.5}>10.5</option>
-                                                <option value={11}>11</option>
-                                                <option value={11.5}>11.5</option>
-                                                <option value={12}>12</option>
-                                                <option value={12.5}>12.5</option>
-                                                <option value={13}>13</option>
-                                                <option value={13.5}>13.5</option>
-                                                <option value={14}>14</option>
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                </DialogContent>
+                                <Dialog disableEscapeKeyDown open={openForm} onClose={handleCloseForm}>
+                                    <DialogTitle>Ring Size</DialogTitle>
+                                    <DialogContent>
+                                        <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                                            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                                                <InputLabel htmlFor="demo-dialog-native">Size</InputLabel>
+                                                <Select
+                                                    native
+                                                    value={size}
+                                                    onChange={handleChange}
+                                                    input={<OutlinedInput label="Size" />}
+                                                >
+                                                    <option aria-label="None" value="" />
+                                                    <option value={3}>3</option>
+                                                    <option value={3.5}>3.5</option>
+                                                    <option value={4}>4</option>
+                                                    <option value={4.5}>4.5</option>
+                                                    <option value={5}>5</option>
+                                                    <option value={5.5}>5.5</option>
+                                                    <option value={6}>6</option>
+                                                    <option value={6.5}>6.5</option>
+                                                    <option value={7}>7</option>
+                                                    <option value={7.5}>7.5</option>
+                                                    <option value={8}>8</option>
+                                                    <option value={8.5}>8.5</option>
+                                                    <option value={9}>9</option>
+                                                    <option value={9.5}>9.5</option>
+                                                    <option value={10}>10</option>
+                                                    <option value={10.5}>10.5</option>
+                                                    <option value={11}>11</option>
+                                                    <option value={11.5}>11.5</option>
+                                                    <option value={12}>12</option>
+                                                    <option value={12.5}>12.5</option>
+                                                    <option value={13}>13</option>
+                                                    <option value={13.5}>13.5</option>
+                                                    <option value={14}>14</option>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                    </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleCloseForm}>Cancel</Button>
                                     <Button onClick={handleAddToCart}>Ok</Button>

@@ -3,7 +3,7 @@ body{
   height: auto; 
 }
 
-.home, .custom-orders, .earrings, .admin{
+.home, .contact-us, .custom-orders, .earrings, .admin{
   overflow:auto;
   position:relative; 
   display:block; 
