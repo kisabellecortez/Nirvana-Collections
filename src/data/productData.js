@@ -1,14 +1,14 @@
 /* Firebase */
 import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
-import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
 class Product{
-    constructor(id, name, description, price){
+    constructor(id, name, description, price, url){
         this.id = id; 
         this.name = name; 
         this.description = description;
         this.price = price; 
+        this.url = url; 
     }
 }
 
@@ -24,27 +24,10 @@ productsData.forEach((product) => {
     productsArray.push(new Product(product.id, product.name, product.description, product.price));
 });
 
-// fetch images from cloud storage 
-const storage = getStorage();
-const imageDb = ref(storage, "products"); 
-
-// display images 
-listAll(imageDb)
-    .then(imgs => {
-        // display image if URL found in product document 
-        const promises = imgs.items.map(item => getDownloadURL(item)); 
-        Promise.all(promises)
-            .then(urls => {
-                imagesArray.push(urls);
-            })
-            .catch(error => console.error("Error fetching image URLs:", error));
-    })
-    .catch(error => console.error("Error listing images in storage:", error));
-
 function getProductData(id) {
     let productData = productsArray.find(product => product.id === id);
 
-    if (productData == undefined) {
+    if (productData === undefined) {
         console.log("Product data does not exist for ID: " + id);
         return undefined;
     }

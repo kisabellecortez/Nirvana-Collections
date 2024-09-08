@@ -1,11 +1,12 @@
 /* React */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage'
 
 /* components */
 import Sidebar from '../../components/Sidebar.js'
 import TopNav from '../../components/TopNav.js'
 import EndBanner from '../../components/EndBanner.js'
-import { productsArray, imagesArray } from '../../data/productData.js'
+import { productsArray } from '../../data/productData.js'
 
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
@@ -15,9 +16,11 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Box from '@mui/material/Box';
 
 export default function Shop_All(){
     const cart = useContext(CartContext); 
+    const [imagesArray, setImagesArray] = useState([])
 
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('')
@@ -37,7 +40,6 @@ export default function Shop_All(){
     };
     
     console.log(productsArray)
-    console.log(imagesArray)
     console.log(cart.items)
 
     /* add product to cart */
@@ -68,6 +70,20 @@ export default function Shop_All(){
         return item  ? item.quantity : 0; 
     }
 
+    useEffect(() => {
+        const fetchImages = async() => {
+            const storage = getStorage(); 
+            const urls = await Promise.all(
+                productsArray.map(async (product) => {
+                    const url = await getDownloadURL(ref(storage, "products/" + product.id + ".jpg"))
+                    return url
+                })
+            )
+            setImagesArray(urls)
+        }
+        fetchImages()
+    }, [])
+
     return(
         <div>
             <Sidebar/>
@@ -81,23 +97,27 @@ export default function Shop_All(){
                         ) : (
                             <p>No image of product...</p>
                         )}
-                            <h4>{product.name}</h4>
+                            <h3 className="name">{product.name}</h3>
                             <p className="price">${product.price}</p>
 
                             {!checkItem(product.id) ? (
-                                <Button 
-                                variant='contained' 
-                                color='secondary'
-                                type='submit' 
-                                onClick={ () => handleAddCart(product.id) }>
-                                    Add to Cart
-                                </Button>
+                                <div className="button">
+                                    <Button 
+                                    variant='contained' 
+                                    color='secondary'
+                                    type='submit' 
+                                    onClick={ () => handleAddCart(product.id) }>
+                                        Add to Cart
+                                    </Button>
+                                </div>
                             ) : (
-                                <ButtonGroup variant="contained" color="secondary" aria-label="Basic button group">
-                                    <Button onClick={ () => handleRemoveCart(product.id)}>-</Button>
-                                    <Button>{getItemQuantity(product.id)}</Button>
-                                    <Button onClick={ () => handleAddCart(product.id) }>+</Button>
-                                </ButtonGroup>
+                                <div className="button">
+                                    <ButtonGroup variant="contained" color="secondary" aria-label="Basic button group">
+                                        <Button onClick={ () => handleRemoveCart(product.id)}>-</Button>
+                                        <Button>{getItemQuantity(product.id)}</Button>
+                                        <Button onClick={ () => handleAddCart(product.id) }>+</Button>
+                                    </ButtonGroup>
+                                </div>
                             )}
                             
                         </div>

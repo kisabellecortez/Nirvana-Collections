@@ -41,79 +41,90 @@ body{
 }
 
 /* product cards */
-.pcard-section{
+.pcard-section {
   width: 100%; 
   padding: 10vh 2.5vh;
-  justify-content: center; 
-  align-items: center; 
-  display: inline-block; 
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  align-items: center;
 }
 
-.alert{
+.alert {
   position: fixed; 
   bottom: 2.5vh; 
   left: 2.5vh; 
+  z-index: 2; 
 }
 
 .pcard-section h1, 
-  .pcard h4, 
-  .pcard .price,
-  .pcard .quantity{
-  color:#7030a0; 
+.pcard h4, 
+.pcard .price,
+.pcard .quantity {
+  color: #7030a0; 
 }
 
-.card-section h1{
+.card-section h1 {
   text-align: center;
-  font-size:5vh;
+  font-size: 5vh;
 }
 
 .pcard {
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
   background-color: #f9f9f9;
   width: 50vh;
-  height: 65vh;
+  height: 70vh;
   margin: 2.5vh 5vh;
   color: #7030a0;
   padding: 2.5vh;
+  box-sizing: border-box;
+}
+
+.pcard .product-name, .pcard .price{
+  text-align: left; 
+}
+
+.pcard .name{
+  margin-top: 2vh; 
+}
+
+.pcard .price{
+  margin-bottom: 3vh; 
 }
 
 .pcard img {
-  display: block;
   width: 45vh;
   height: 45vh;
 }
 
-.pcard h4, 
-  .pcard .price{
-  display: inline; 
-  position: relative;
-  margin-top: 5%;
+.pcard .button {
+  width: 100%;
 }
 
-.pcard h4 {
-  float: left;
-  width: 50%;
+.pcard .button .MuiButtonGroup-root {
+  width: 100%; 
 }
 
-.pcard .price {
-  float: right;
+.pcard .button .MuiButton-root {
+  width: 100%; 
 }
 
-.pcard .cart-icons{
-  margin-top: 12vh; 
-  display: flex; 
-  justify-content: center; 
+.pcard .cart-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5vh;
 }
 
-.pcard .cart-icons .icon{
-  margin: 0 5vh 0 5vh;
-  cursor: pointer; 
+.pcard .cart-icons .icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 1vh;
+  cursor: pointer;
 }
 
-.pcard:hover{
+.pcard:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
