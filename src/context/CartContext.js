@@ -79,7 +79,7 @@ export function CartProvider({children}){
             if(cartProducts[i].id === id && cartProducts[i].size === size){
                 // remove item from cart
                 if(cartProducts[i].quantity === 1){
-                    deleteFromCart(id); 
+                    deleteFromCart(id, size); 
                 }
                 // decrement quantity of item 
                 else{
@@ -91,7 +91,7 @@ export function CartProvider({children}){
     }
 
     function deleteFromCart(id, size) {
-        const updatedCartProducts = cartProducts.filter(product => product.id !== id && product.size !== size); 
+        const updatedCartProducts = cartProducts.filter(product => !(product.id === id && product.size === size)); 
 
         setCartProducts(updatedCartProducts)
     }
