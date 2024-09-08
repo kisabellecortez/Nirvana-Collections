@@ -3,12 +3,12 @@ import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 
 class Product{
-    constructor(id, name, description, price, url){
+    constructor(id, name, description, price, properties){
         this.id = id; 
         this.name = name; 
         this.description = description;
         this.price = price; 
-        this.url = url; 
+        this.properties = properties; 
     }
 }
 
@@ -21,7 +21,7 @@ const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() 
 
 // add each product to cart 
 productsData.forEach((product) => {
-    productsArray.push(new Product(product.id, product.name, product.description, product.price));
+    productsArray.push(new Product(product.id, product.name, product.description, product.price, product.properties[0]));
 });
 
 function getProductData(id) {

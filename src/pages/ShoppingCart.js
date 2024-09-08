@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
@@ -15,13 +15,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import ButtonGroup from '@mui/material/ButtonGroup';
+
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+
 
 
 export default function ShoppingCart(){
     const cart = useContext(CartContext)
+    const [size, setSize] = useState('')
 
     /* add product to cart */
     const handleAddOneCart = async(id)=>{
@@ -54,6 +59,7 @@ export default function ShoppingCart(){
                         <TableHead>
                         <TableRow>
                             <TableCell>PRODUCT</TableCell>
+                            <TableCell align="right">SIZE</TableCell>
                             <TableCell align="right">PRICE</TableCell>
                             <TableCell align="right">QUANTITY</TableCell>
                             <TableCell align="right">TOTAL</TableCell>
@@ -69,6 +75,9 @@ export default function ShoppingCart(){
                             <TableCell component="th" scope="row">
                                 {item.name}
                             </TableCell>
+                            <TableCell component="th" scope="row">
+                              {item.size}
+                            </TableCell>
                             <TableCell align="right">${item.price}</TableCell>
                             <TableCell align="right">
                                 <ButtonGroup variant="contained" color="secondary" aria-label="Basic button group">
@@ -77,7 +86,7 @@ export default function ShoppingCart(){
                                     <Button onClick={() => handleAddOneCart(item.id)}>+</Button>
                                 </ButtonGroup>
                             </TableCell>
-                            <TableCell align="right">{item.price * item.quantity}</TableCell>
+                            <TableCell align="right">${item.price * item.quantity}</TableCell>
                             <TableCell align="right">
                                 <img className="delete" src={Trash} alt="Trash can." onClick={ () => handleRemoveCart(item.id)}></img>
                             </TableCell>
