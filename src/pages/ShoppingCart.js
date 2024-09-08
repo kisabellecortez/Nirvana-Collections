@@ -29,20 +29,20 @@ export default function ShoppingCart(){
     const [size, setSize] = useState('')
 
     /* add product to cart */
-    const handleAddOneCart = async(id)=>{
-        cart.addOneToCart(id); 
+    const handleAddOneCart = async(id, size)=>{
+        cart.addOneToCart(id, size); 
         console.log(cart)
     }
 
-    const handleRemoveOneCart = async(id) => {
+    const handleRemoveOneCart = async(id, size) => {
         // remove from local cart if no user 
-        cart.removeOneFromCart(id)
+        cart.removeOneFromCart(id, size)
         console.log(cart)
     }
 
-    const handleRemoveCart = async(id) => {
+    const handleRemoveCart = async(id, size) => {
         // remove entire product from cart
-        cart.deleteFromCart(id)
+        cart.deleteFromCart(id, size)
         console.log(cart)
     }
 
@@ -59,10 +59,10 @@ export default function ShoppingCart(){
                         <TableHead>
                         <TableRow>
                             <TableCell>PRODUCT</TableCell>
-                            <TableCell align="right">SIZE</TableCell>
-                            <TableCell align="right">PRICE</TableCell>
-                            <TableCell align="right">QUANTITY</TableCell>
-                            <TableCell align="right">TOTAL</TableCell>
+                            <TableCell align="center">SIZE</TableCell>
+                            <TableCell align="center">PRICE</TableCell>
+                            <TableCell align="center">QUANTITY</TableCell>
+                            <TableCell align="center">TOTAL</TableCell>
                             <TableCell align="right"></TableCell>
                         </TableRow>
                         </TableHead>
@@ -75,20 +75,20 @@ export default function ShoppingCart(){
                             <TableCell component="th" scope="row">
                                 {item.name}
                             </TableCell>
-                            <TableCell component="th" scope="row">
+                            <TableCell align="center" component="th" scope="row">
                               {item.size}
                             </TableCell>
-                            <TableCell align="right">${item.price}</TableCell>
-                            <TableCell align="right">
+                            <TableCell align="center" component="th" scope="row">${item.price}</TableCell>
+                            <TableCell align="center" component="th" scope="row">
                                 <ButtonGroup variant="contained" color="secondary" aria-label="Basic button group">
-                                    <Button onClick={ () => handleRemoveOneCart(item.id)}>-</Button>
+                                    <Button onClick={ () => handleRemoveOneCart(item.id, item.size)}>-</Button>
                                     <Button>{item.quantity}</Button>
-                                    <Button onClick={() => handleAddOneCart(item.id)}>+</Button>
+                                    <Button onClick={() => handleAddOneCart(item.id,item.size)}>+</Button>
                                 </ButtonGroup>
                             </TableCell>
-                            <TableCell align="right">${item.price * item.quantity}</TableCell>
-                            <TableCell align="right">
-                                <img className="delete" src={Trash} alt="Trash can." onClick={ () => handleRemoveCart(item.id)}></img>
+                            <TableCell align="center" component="th" scope="row">${item.price * item.quantity}</TableCell>
+                            <TableCell align="right" component="th" scope="row">
+                                <img className="delete" src={Trash} alt="Trash can." onClick={ () => handleRemoveCart(item.id, item.size)}></img>
                             </TableCell>
                             </TableRow>
                         ))}

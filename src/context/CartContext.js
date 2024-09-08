@@ -64,19 +64,13 @@ export function CartProvider({children}){
     }
 
     function addOneToCart(id, size){
-        const initialCartProducts = cartProducts || []; // initialize cart products if null
-
-        // check if product exists 
-        for(let i = 0; i < initialCartProducts.length; i++){
-            if(initialCartProducts[i].id === id && initialCartProducts[i].size === size){
-                const updatedProducts = [...initialCartProducts];
-                updatedProducts[i].quantity += 1; 
-                setCartProducts(updatedProducts);
-                return; 
+       // find product to add 
+       for(let i = 0; i < cartProducts.length; i++){
+            if(cartProducts[i].id === id && cartProducts[i].size === size){
+                cartProducts[i].quantity += 1
+                setCartProducts([...cartProducts])
             }
-        }
-
-        setCartProducts([...initialCartProducts, new CartProduct(id, size)]); // add product to cart if it does not exist 
+       }
     }
 
     function removeOneFromCart(id, size) {
