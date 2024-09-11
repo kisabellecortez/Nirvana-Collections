@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'; 
-import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth } from 'firebase/auth';
+import { GoogleAuthProvider , createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser, getAuth, updateProfile, sendPasswordResetEmail, updateEmail } from 'firebase/auth';
 import { auth, db, imageDb } from '../firebase.js' 
 import { doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
@@ -60,9 +60,31 @@ export const AuthContextProvider = ({ children })=> {
         return signOut(auth)
     }
 
-    const delUser =()=>{
-        return deleteUser(user)
+    /* user management */
+    
+    /* set display name */
+    const setDispName = async(dispName) => {
+        await updateProfile(user, {
+            displayName: dispName
+        })
     }
+
+    /* update email */
+    const updateEmail = async(email) => {
+        await updateEmail(user, email)
+    }
+
+    /* update password */
+    const updatePass = async(email) => {
+        await sendPasswordResetEmail(auth, email)
+    }
+
+    /* delete user's account */
+    const delUser = () => {
+        deleteUser(user)
+    }
+
+    /* product db management */
 
     /* add product in database */
     const addProduct = async(name, price, description, stock, type, material, stone)=>{
@@ -132,7 +154,7 @@ export const AuthContextProvider = ({ children })=> {
       }, []);
 
     return(
-        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, delUser, createUser, user }}>
+        <AuthContext.Provider value = {{ addProduct, editProduct, delProduct, uploadImage, googleSignIn, signIn, logOut, deleteUser, setDispName, delUser, createUser, user, updatePass, updateEmail }}>
             { children }
         </AuthContext.Provider>
     );
