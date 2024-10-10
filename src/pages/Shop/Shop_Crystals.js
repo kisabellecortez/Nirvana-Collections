@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+
 import Sidebar from '../../components/Sidebar.js';
 import TopNav from '../../components/TopNav.js';
 import EndBanner from '../../components/EndBanner.js';
-import { productsArray } from '../../data/productData.js';
-import { CartContext } from "../../context/CartContext";
 
-/* Material UI */
+/* MUI components */
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -20,9 +18,16 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function Shop_All() {
+import { productsArray } from '../../data/productData.js'
+import { CartContext } from '../../context/CartContext.js'
+
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+
+export default function Shop_Rings(){
+    const [crystalsArray, setCrystalsArray] = useState([])
+    const [imagesArray, setImagesArray] = useState([])
+
     const cart = useContext(CartContext); 
-    const [imagesArray, setImagesArray] = useState([]);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [openForm, setOpenForm] = useState(false);
@@ -43,31 +48,9 @@ export default function Shop_All() {
     };
 
     const handleOpenForm = (id, type) => {
-        console.log("type:" + type)
         setSelectedProductId(id)
-        setSize(''); // reset size 
-
-        if(type === "earring"){
-
-        }
-        else if(type === "necklace"){
-
-        }
-        else if(type === "bracelet"){
-
-        }
-        else if(type === "ring"){
-            setOpenForm(true); // open form 
-        }
-        else if(type === "anklet"){
-
-        }
-        else if(type === "phone charm"){
-
-        }
-        else{
-            handleAddToCartNS(id)
-        }   
+        setSize(''); // reset size
+        setOpenForm(true); // open form 
     };
     
 
@@ -96,17 +79,16 @@ export default function Shop_All() {
         }
     };
 
-    const handleAddToCartNS = async(id) => {
-        cart.addItemToCart(id, "n/a"); 
-        console.log(cart)
-        handleClick("Added to Cart!")
-    }
+    useEffect(() => {
+        const filteredCrystals = productsArray.filter(product => product.properties === "crystal") // filter products to only have rings
+        setCrystalsArray(filteredCrystals)
+    }, [])
 
     useEffect(() => {
         const fetchImages = async () => {
             const storage = getStorage();
             const urls = await Promise.all(
-                productsArray.map(async (product) => {
+                crystalsArray.map(async (product) => {
                     const url = await getDownloadURL(ref(storage, "products/" + product.id + ".jpg"));
                     return url;
                 })
@@ -114,15 +96,15 @@ export default function Shop_All() {
             setImagesArray(urls);
         };
         fetchImages();
-    }, []);
+    }, [crystalsArray]);
 
-    return (
+    return(
         <div>
             <Sidebar />
             <TopNav />
 
             <div className="pcard-section">
-                {productsArray.map((product, index) => (
+                {crystalsArray.map((product, index) => (
                     <div key={product.id} className="pcard">
                         {imagesArray[index] ? (
                             <img src={imagesArray[index]} alt="Product" />
@@ -212,5 +194,5 @@ export default function Shop_All() {
 
             <EndBanner />
         </div>
-    );
+    )
 }

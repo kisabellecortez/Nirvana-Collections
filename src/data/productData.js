@@ -1,6 +1,7 @@
 /* Firebase */
 import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
 class Product{
     constructor(id, name, description, price, properties){
@@ -12,17 +13,20 @@ class Product{
     }
 }
 
+const auth = getAuth(); 
+const user = auth.currentUser(); 
+
 const productsArray = []; 
-const imagesArray = []; 
 
 // get product data from database 
-const querySnapshot = await getDocs(collection(db, "products"));
+const querySnapshot = await getDocs(collection(db, user.uid));
 const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
 // add each product to cart 
 productsData.forEach((product) => {
     productsArray.push(new Product(product.id, product.name, product.description, product.price, product.properties[0]));
 });
+
 
 function getProductData(id) {
     let productData = productsArray.find(product => product.id === id);
@@ -35,4 +39,4 @@ function getProductData(id) {
     return productData;
 }
 
-export { productsArray, imagesArray, getProductData }; 
+export { productsArray, getProductData }; 

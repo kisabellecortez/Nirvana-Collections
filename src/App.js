@@ -8,10 +8,10 @@ import ShopAll from './pages/Shop/Shop_All'
 // import ShopEarrings from './pages/Shop/Shop_Earrings'
 // import ShopNecklaces from './pages/Shop/Shop_Necklaces'
 // import ShopBracelets from './pages/Shop/Shop_Bracelets'
-// import ShopRings from './pages/Shop/Shop_Rings'
+import ShopRings from './pages/Shop/Shop_Rings'
 // import ShopAnklets from './pages/Shop/Shop_Anklets'
 // import ShopPhoneCharms from './pages/Shop/Shop_PhoneCharms'
-// import ShopCrystals from './pages/Shop/Shop_Crystals'
+import ShopCrystals from './pages/Shop/Shop_Crystals'
 
 import CustomOrders from './pages/Shop/Custom_Orders.js'
 import FAQ from './pages/FAQ'
@@ -37,10 +37,11 @@ function App() {
             {/* <Route path="shop/earrings" element={<ShopEarrings/>}/>
             <Route path="shop/necklaces" element={<ShopNecklaces/>}/>
             <Route path="shop/bracelets" element={<ShopBracelets/>}/>
-            <Route path="shop/rings" element={<ShopRings/>}/>
             <Route path="shop/anklets" element={<ShopAnklets/>}/>
             <Route path="shop/phone-charms" element={<ShopPhoneCharms/>}/>
-            <Route path="shop/crystals" element={<ShopCrystals/>}/> */}
+             */}
+             <Route path="shop/crystals" element={<ShopCrystals/>}/>
+            <Route path="shop/rings" element={<ShopRings/>}/>
             <Route path="shop/custom" element={<CustomOrders/>}/>
             <Route path="faq" element={<FAQ/>}/>
             <Route path="blog" element={<Blog/>}/>
