@@ -24,6 +24,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+class UserInfo{
+    constructor(){
+        
+    }
+}
+
 export default function Account(){
     const navigate = useNavigate()
     const [currUser, setCurrUser] = useState('')

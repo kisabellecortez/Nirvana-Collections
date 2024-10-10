@@ -16,6 +16,11 @@ const SignUp =()=>{
     const [password, setPassword] = useState('')
     const [passwordC, setPasswordC] = useState('')
 
+      const isErrorEmail = email === ''
+  const isErrorPass = password === ''
+
+
+
     //create new users
     const handleSignUp = async()=>{
         try{

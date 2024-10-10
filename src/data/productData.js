@@ -13,13 +13,10 @@ class Product{
     }
 }
 
-const auth = getAuth(); 
-const user = auth.currentUser(); 
-
 const productsArray = []; 
 
 // get product data from database 
-const querySnapshot = await getDocs(collection(db, user.uid));
+const querySnapshot = await getDocs(collection(db, 'products'));
 const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
 // add each product to cart 
