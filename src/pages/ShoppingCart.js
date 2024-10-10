@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
@@ -17,16 +17,8 @@ import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-
-
-
 export default function ShoppingCart(){
     const cart = useContext(CartContext)
-    const [size, setSize] = useState('')
 
     /* add product to cart */
     const handleAddOneCart = async(id, size)=>{
