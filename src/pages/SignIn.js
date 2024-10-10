@@ -13,9 +13,6 @@ const SignIn =()=>{
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
-    const isErrorEmail = email === ''
-  const isErrorPass = password === ''
-
   //sign in users using email and password
   const handleSignIn = async(e)=>{
     e.preventDefault()   

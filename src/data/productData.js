@@ -1,7 +1,6 @@
 /* Firebase */
 import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
 
 class Product{
     constructor(id, name, description, price, properties){
