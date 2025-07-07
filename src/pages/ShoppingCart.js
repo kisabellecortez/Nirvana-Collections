@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
@@ -19,6 +20,11 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 export default function ShoppingCart(){
     const cart = useContext(CartContext)
+    const navigate = useNavigate(); 
+
+    useEffect(() => {
+                console.log("Current cart items:", cart.items);
+    }, [cart.items]);
 
     /* add product to cart */
     const handleAddOneCart = async(id, size)=>{
@@ -90,15 +96,24 @@ export default function ShoppingCart(){
 
             </div>
                 
-                <hr></hr>
+            <hr></hr>
 
-                <h1 className='total'>TOTAL: ${cart.getTotalCost()}</h1>
+            <h1 className='total'>TOTAL: ${cart.getTotalCost()}</h1>
 
-                <div className="checkout">
-                    <Button variant="contained" color="secondary" size="large">PROCEED TO CHECKOUT</Button>
-                </div>
+            <Button 
+                className='checkout' 
+                variant="contained" 
+                color="secondary" 
+                size="large" 
+                onClick={() => {
+                    console.log("Checkout button clicked"); 
+                    navigate('/checkout');
+                }}>
+            PROCEED TO CHECKOUT
+            </Button>
             
             <EndBanner/>
+
         </div>
     )
 }

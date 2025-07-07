@@ -23,6 +23,8 @@ import ShoppingCart from './pages/ShoppingCart'
 import Account from './pages/Account'
 import Admin from './pages/Admin'
 
+import Checkout from './stripe/checkout-page.js'
+
 function App() {
 
   return(
@@ -51,6 +53,7 @@ function App() {
             <Route path="shoppingcart" element={<ShoppingCart/>}/>
             <Route path="account" element={<Account/>}/>
             <Route path="admin" element={<Admin/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
           </Routes>
         </BrowserRouter>
         </CartProvider>
