@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
+import arrow from '../assets/arrow.svg'
+
 const SignUp =()=>{
     const navigate = useNavigate(); 
     const { createUser } = UserAuth()
@@ -39,6 +41,11 @@ const SignUp =()=>{
 
     return(
         <div className="sign-in">
+            <div className="return">
+                <img src={arrow} alt="arrow"></img>
+                <a href="/home">RETURN TO SHOPPING</a>
+            </div>
+    
             <div className="sign-in-card">
                 <h1>Welcome!</h1>
 

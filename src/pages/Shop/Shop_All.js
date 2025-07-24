@@ -143,7 +143,10 @@ export default function Shop_All() {
                                     Add to Cart
                                 </Button>
                             </div>
-                                <Dialog disableEscapeKeyDown open={openForm} onClose={handleCloseForm}>
+                                <Dialog 
+                                    disableEscapeKeyDown open={openForm} 
+                                    onClose={handleCloseForm}
+                                    BackdropProps={{ style: { backgroundColor: 'transparent' } }}>
                                     <DialogTitle>Ring Size</DialogTitle>
                                     <DialogContent>
                                         <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>

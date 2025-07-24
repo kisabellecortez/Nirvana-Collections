@@ -3,16 +3,48 @@ body{
   height: auto; 
 }
 
-.home, .contact-us, .custom-orders, .earrings, .admin{
-  overflow:auto;
-  position:relative; 
-  display:block; 
-  height:auto; 
+/* Home */
+.page{
+  width: 100%; 
+  height: auto; 
 }
 
-.home .new-arrivals, .bestsellers{
-  width:100%; 
-  height:100vh;  
+.header{
+  width: 100%; 
+  height: 100vh;
+  padding-top: 6vh; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.header img{
+  width: 100%; 
+}
+
+.collage-parent{
+  display: flex; 
+  align-items: center; 
+  justify-content: space-around; 
+  margin: 5vh 0 5vh 0; 
+}
+
+.collage-parent a {
+  flex: 1 1 50%;
+  box-sizing: border-box; 
+}
+
+.collage-child{
+  display: flex; 
+  flex-direction: row; 
+  flex-wrap: wrap;  
+  width: 90%; 
+}
+
+.collage-child img{
+  width: 100%;
+  height: 50vh;
+  object-fit: cover; 
+  display: block;
 }
 
 .home .pcard-section .prod p{
@@ -159,15 +191,14 @@ form {
 
 /* SignIn and SignOut */
 .sign-in{
-  position: relative; 
+  background-color: #f7d4d4; 
+  width: 100%; 
   height: 100vh; 
-  width: 100%;
-  background-color: #e5c0fc; 
-  padding-top: 10vh; 
+  padding: 2vh; 
 }
 
-.sign-in-card h1, p, label{
-  color: #fff; 
+.sign-in-card h1, .sign-in p, .sign-in label{
+  color: #d6a6b2; 
   text-align: center;
 }
 
@@ -181,7 +212,7 @@ form {
 }
 
 .sign-in-card a{
-  color: #7030a0; 
+  color: #d6a6b2; 
   text-decoration: underline; 
 }
 
@@ -194,7 +225,7 @@ form {
 }
 
 .sign-in .home-portal{
-  color: #ffff;
+  color: #d6a6b2;
   text-decoration: none; 
 }
 
@@ -212,7 +243,7 @@ form {
 
 .admin h1{
   text-align: center; 
-  color: #7030a0;
+  color: #d6a6b2;
 }
 
 .admin .admin-form{
@@ -223,7 +254,7 @@ form {
   margin-bottom: 20vh; 
   height: 80vh; 
   width: 60vh; 
-  background-color: #e5c0fc; 
+  background-color: #d6a6b2; 
   border-radius: 20px; 
   float: left; 
 }
@@ -234,13 +265,6 @@ form {
 }
 
 /* shopping cart page */
-
-.page .title{
-  padding-top: 10vh; 
-  text-align: center; 
-  color: #7030a0;
-}
-
 .table{
   width: 80%;
   margin: auto; 
@@ -248,14 +272,55 @@ form {
   margin-bottom: 10vh; 
 }
 
+.table img{
+  width: 10vh;
+  margin-right: 2vh;  
+}
+
+.table-product{
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+}
+
 .page hr{
   width: 90%; 
   margin: auto; 
 }
 
-.page .total, .page .checkout{
-  color: #7030a0;
-  margin: 10vh 0 10vh 10%; 
+.text-parent{
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start;  
+  row-gap: 2vh; 
+  width: 30%; 
+  margin: 5vh 0 5vh 20vh; 
+}
+
+.text-child{
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between; 
+  width: 100%; 
+}
+
+.text-child p{
+  color: black; 
+}
+
+.bold{
+  font-weight: bold; 
+  font-size: 20px; 
+}
+
+button{
+  all: unset; 
+  cursor: pointer; 
+  background-color: #d6a6b2;
+  height: 5vh; 
+  padding: 2vh; 
+  border-radius: 5px; 
+  margin: 5vh 0 5vh 20vh; 
 }
 
 /* Custom-Orders */
@@ -319,6 +384,8 @@ p{
   background-color: #f7d4d4;
   padding: 5vh; 
   display: flex; 
+  flex-direction: row; 
+  flex-wrap: wrap; 
 }
 
 .checkout-page p, .checkout-page h3{
@@ -349,7 +416,7 @@ p{
 }
 
 .shipping-parent, .billing-parent, .summary-parent, .cart-parent{
-  background-color: #fff8f0; 
+  background-color: white; 
   border: 0.5px solid #d6a6b2; 
 }
 
@@ -360,6 +427,25 @@ p{
   display: flex; 
   align-items: center; 
   padding-left: 2vh; 
+}
+
+.return{
+  width: 100%; 
+  height: 8vh; 
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+  margin-bottom: 2vh; 
+}
+
+.return img{
+  width: 5vh; 
+  margin-right: 2vh; 
+}
+
+.return a{
+  text-decoration: none; 
+  color: #d6a6b2; 
 }
 
 .vert-div{

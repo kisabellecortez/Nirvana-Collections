@@ -1,6 +1,7 @@
 import React, { useState } from 'react';  
 import { UserAuth} from '../context/AuthContext.js'
 import { useNavigate } from 'react-router-dom'
+import arrow from '../assets/arrow.svg'
 
 /* Material UI */ 
 import Button from '@mui/material/Button';
@@ -33,6 +34,10 @@ const SignIn =()=>{
 
     return(
       <div className="sign-in">
+        <div className="return">
+          <img src={arrow} alt="arrow"></img>
+          <a href="/home">RETURN TO SHOPPING</a>
+        </div>
         <div className="sign-in-card">
           <h1>Welcome back!</h1>
 
@@ -64,7 +69,7 @@ const SignIn =()=>{
                 />
               </Box>
 
-                <Button variant="contained" color="secondary" size="large" onClick={handleSignIn}>SIGN IN</Button>
+              <Button variant="contained" color="secondary" size="large" onClick={handleSignIn}>SIGN IN</Button>
             </div>
             
 

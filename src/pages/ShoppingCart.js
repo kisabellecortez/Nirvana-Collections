@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import Sidebar from '../components/Sidebar.js'
 import TopNav from '../components/TopNav.js'
 import EndBanner from '../components/EndBanner.js'
@@ -20,11 +20,39 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 export default function ShoppingCart(){
     const cart = useContext(CartContext)
+    const [imageUrls, setImageUrls] = useState({});
     const navigate = useNavigate(); 
 
     useEffect(() => {
-                console.log("Current cart items:", cart.items);
+        console.log("Current cart items:", cart.items);
     }, [cart.items]);
+
+    useEffect(() => {
+        const storage = getStorage(); 
+
+        const fetchImageUrls = async() => {
+            const urls = {}; 
+            for(const item of cart.items){
+                try{
+                    const imageRef = ref(storage, `products/${item.id}.jpg`); 
+                    const url = await getDownloadURL(imageRef); 
+                    urls[item.id] = url; 
+                }
+                catch(error){
+                    console.error("Error: ", error);
+                    urls[item.id] = ""; 
+                }
+
+                setImageUrls(urls); 
+            }
+
+            setImageUrls(urls);
+        }
+
+        if(cart.items.length > 0){
+            fetchImageUrls(); 
+        }
+    }, [cart.items]); 
 
     /* add product to cart */
     const handleAddOneCart = async(id, size)=>{
@@ -49,8 +77,6 @@ export default function ShoppingCart(){
             <Sidebar/>
             <TopNav/>
 
-            <h1 className="title">YOUR CART</h1>
-
             <div className='table'>
                 <TableContainer>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -71,7 +97,10 @@ export default function ShoppingCart(){
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                             <TableCell component="th" scope="row">
-                                {item.name}
+                                <div className="table-product">
+                                    <img src={imageUrls[item.id]} alt={item.name}></img>
+                                    {item.name}
+                                </div>
                             </TableCell>
                             <TableCell align="center" component="th" scope="row">
                               {item.size}
@@ -93,24 +122,34 @@ export default function ShoppingCart(){
                         </TableBody>
                     </Table>
                 </TableContainer>
-
             </div>
                 
             <hr></hr>
+            
+            <div className="text-parent">
+                <div className="text-child">
+                    <p className='total'>Subtotal</p>
+                    <p>CAD {cart.getTotalCost().toFixed(2)}</p>
+                </div>
+                
+                <div className="text-child">
+                    <p>Tax</p>
+                    <p>CAD {(cart.getTotalCost()*0.13).toFixed(2)}</p>
+                </div>
 
-            <h1 className='total'>TOTAL: ${cart.getTotalCost()}</h1>
+                <div className="text-child">
+                    <p className="bold">Total</p>
+                    <p className="bold">CAD {(cart.getTotalCost()*1.13).toFixed(2)}</p>
+                </div>
+            </div>
 
-            <Button 
-                className='checkout' 
-                variant="contained" 
-                color="secondary" 
-                size="large" 
+            <button
                 onClick={() => {
-                    console.log("Checkout button clicked"); 
+                    console.log("Checkout button clicked."); 
                     navigate('/checkout');
                 }}>
-            PROCEED TO CHECKOUT
-            </Button>
+                PROCEED TO CHECKOUT
+            </button>
             
             <EndBanner/>
 

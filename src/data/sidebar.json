@@ -13,36 +13,12 @@
                 "path": "/shop/all"
             },
             {
-                "title": "EARRINGS", 
-                "path": "/shop/earrings"
-            }, 
-            {
-                "title": "NECKLACES", 
-                "path": "/shop/necklaces"
-            },
-            {
-                "title": "BRACELETS", 
-                "path": "/shop/bracelets"
-            },
-            {
                 "title": "RINGS", 
                 "path": "/shop/rings"
             },
             {
-                "title": "ANKLETS", 
-                "path": "/shop/anklets"
-            },
-            {
-                "title": "PHONE CHARMS", 
-                "path": "/shop/phone-charms"
-            },
-            {
                 "title": "CRYSTALS", 
                 "path": "/shop/crystals"
-            },
-            {
-                "title": "CUSTOM ORDERS", 
-                "path": "/shop/custom"
             }
         ]
     },
