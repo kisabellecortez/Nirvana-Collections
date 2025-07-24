@@ -1,48 +1,111 @@
-// CheckoutForm.js
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import React, { useState } from 'react';
+import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+const cardElementOptions = {
+  style: {
+    base: {
+      fontSize: '20px',
+      color: '#32325d',
+      fontFamily: 'Arial, sans-serif',
+      '::placeholder': {
+        color: '#a0aec0',
+      },
+    },
+    invalid: {
+      color: '#fa755a',
+    },
+  },
+};
 
 export default function CheckoutForm({ amount }) {
-    const stripe = useStripe();
-    const elements = useElements();
-    const [message, setMessage] = useState(null);
-    const [loading, setLoading] = useState(false);
+  const stripe = useStripe();
+  const elements = useElements();
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
 
-        // 1. Fetch client secret from backend
-        const res = await fetch("http://localhost:4242/create-payment-intent", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount }),
-        });
-        const { clientSecret } = await res.json();
+    if (!stripe || !elements) {
+      setProcessing(false);
+      return;
+    }
 
-        // 2. Confirm payment
-        const result = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement),
-            },
-        });
+    // Call your backend to create payment intent
+    const response = await fetch('http://localhost:4242/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }), // amount in cents
+    });
+    const { clientSecret, error: backendError } = await response.json();
 
-        if (result.error) {
-            setMessage(result.error.message);
-        } else if (result.paymentIntent.status === "succeeded") {
-            setMessage("Payment successful! 🎉");
-        }
+    if (backendError) {
+      setError(backendError);
+      setProcessing(false);
+      return;
+    }
 
-        setLoading(false);
-    };
+    const cardNumberElement = elements.getElement(CardNumberElement);
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button disabled={!stripe || loading}>
-                {loading ? "Processing..." : "Pay"}
-            </button>
-            {message && <div>{message}</div>}
-        </form>
-    );
+    const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
+    type: 'card',
+    card: cardNumberElement,
+    billing_details: {
+        // add billing details here if available
+    },
+    });
+
+    if (paymentMethodError) {
+    setError(paymentMethodError.message);
+    setProcessing(false);
+    return;
+    }
+
+    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+    payment_method: paymentMethod.id,
+    });
+
+    if (paymentResult.error) {
+      setError(paymentResult.error.message);
+      setProcessing(false);
+    } else if (paymentResult.paymentIntent.status === 'succeeded') {
+      setSuccess(true);
+      setError(null);
+      setProcessing(false);
+      // Optionally redirect or clear cart here
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+        <p>
+            Card Number *
+            <div className="payment-child">
+                <CardNumberElement options={cardElementOptions}/>
+            </div>
+        </p>
+        
+        <p>
+            Expiration *
+            <div className="payment-child">
+                <CardExpiryElement options={cardElementOptions}/>
+            </div>
+        </p>
+
+        <p>
+            Security Code *
+            <div className="payment-child">
+                <CardCvcElement options={cardElementOptions}/>
+            </div>
+        </p>
+        
+        <button type="submit" disabled={!stripe || processing}>
+            {processing ? 'Processing...' : `PLACE ORDER`}
+        </button>
+        {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
+        {success && <div style={{ color: 'green', marginTop: '10px' }}>Payment successful!</div>}
+    </form>
+  );
 }

@@ -334,10 +334,6 @@ p{
   width: 10vh; 
 }
 
-.shipping-parent{
-  width: 60%; 
-}
-
 .side-div{
   width: 40%; 
   height: auto; 
@@ -352,7 +348,7 @@ p{
   margin-left: 10%;   
 }
 
-.shipping-parent, .summary-parent, .cart-parent{
+.shipping-parent, .billing-parent, .summary-parent, .cart-parent{
   background-color: #fff8f0; 
   border: 0.5px solid #d6a6b2; 
 }
@@ -364,6 +360,13 @@ p{
   display: flex; 
   align-items: center; 
   padding-left: 2vh; 
+}
+
+.vert-div{
+  display: flex; 
+  flex-direction: column; 
+  width: 60%; 
+  row-gap: 2vh;  
 }
 
 .form{
@@ -433,4 +436,21 @@ p{
 .item-price{
   padding-top: 3vh; 
   font-weight: bold; 
+}
+
+.payment-parent{
+  display: flex; 
+  flex-direction: column; 
+  row-gap: 5vh;  
+  margin-top: '20px';
+  width: '100%';
+  padding: 5vh; 
+}
+
+.payment-child{
+  border: 0.5px solid #d6a6b2; 
+  padding: 2vh; 
+  border-radius: 4px; 
+  width: 100vh; 
+  margin-bottom: 5vh;  
 }
