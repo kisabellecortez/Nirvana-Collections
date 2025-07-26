@@ -3,12 +3,12 @@ import { db } from '../firebase.js'
 import { collection, getDocs } from 'firebase/firestore'
 
 class Product{
-    constructor(id, name, description, price, properties){ 
+    constructor(id, name, description, price, type){ 
         this.id = id; 
         this.name = name; 
         this.description = description;
         this.price = price; 
-        this.properties = properties; 
+        this.type = type; 
     }
 }
 

@@ -313,14 +313,17 @@ form {
   font-size: 20px; 
 }
 
+.page button{
+  margin: 5vh 0 5vh 20vh;
+}
+
 button{
   all: unset; 
   cursor: pointer; 
   background-color: #d6a6b2;
   height: 5vh; 
   padding: 2vh; 
-  border-radius: 5px; 
-  margin: 5vh 0 5vh 20vh; 
+  border-radius: 5px;  
 }
 
 /* Custom-Orders */
@@ -499,8 +502,7 @@ p{
 .item-parent{
   display: flex; 
   flex-direction: row; 
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
   padding: 5vh; 
   column-gap: 2vh; 
 }
@@ -539,4 +541,9 @@ p{
   border-radius: 4px; 
   width: 100vh; 
   margin-bottom: 5vh;  
+}
+
+.button-parent{ 
+  display: flex; 
+  justify-content: flex-start;  
 }

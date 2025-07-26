@@ -33,11 +33,10 @@ export default function CheckoutForm({ amount }) {
       return;
     }
 
-    // Call your backend to create payment intent
     const response = await fetch('http://localhost:4242/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount }), // amount in cents
+      body: JSON.stringify({ amount }),
     });
     const { clientSecret, error: backendError } = await response.json();
 
@@ -101,9 +100,12 @@ export default function CheckoutForm({ amount }) {
             </div>
         </p>
         
-        <button type="submit" disabled={!stripe || processing}>
+        <div className="button-parent">
+          <button type="submit" disabled={!stripe || processing}>
             {processing ? 'Processing...' : `PLACE ORDER`}
-        </button>
+          </button>
+        </div>
+  
         {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
         {success && <div style={{ color: 'green', marginTop: '10px' }}>Payment successful!</div>}
     </form>
