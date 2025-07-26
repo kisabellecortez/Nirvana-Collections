@@ -4,7 +4,9 @@ const cors = require('cors');
 
 const app = express(); 
 const port = 4242; 
-const stripe = new Stripe();    
+
+const databaseUrl = process.env.STRIPE_SK;
+const stripe = new Stripe(databaseUrl);   
 
 app.use(cors());
 app.use(express.json());
